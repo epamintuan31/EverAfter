@@ -1,732 +1,2021 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ever After — The Art of Making Memories</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          cream: '#F7F6F3',
-          surface: '#EAE8E3',
-          charcoal: '#161A1F',
-          muted: '#5B6168',
-          blush: '#C7D0D9',
-          rose: '#22314F',
-          gold: '#A9824F'
-        },
-        fontFamily: {
-          serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-          sans: ['Inter', 'sans-serif']
-        }
-      }
+<meta charset="UTF-8" />
+<meta name="theme-color" content="#f4ece0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="A little letter for the person who means everything." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Alex+Brush&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>A Love Letter</title>
+
+<!--
+==========================================================================
+                          EVER AFTER
+                    LOVE LETTER TEMPLATE
+                     (standalone build)
+
+                       EDIT HERE ↓
+==========================================================================
+
+Almost everything you'd want to customize lives in ONE place inside the
+<script> tag near the bottom of this file:
+
+    const LOVE_LETTER_CONFIG = { ... }
+
+Open this file in any text editor (Notepad, VS Code, etc.), find that
+object, and change the recipient, the letter, the photos, the music, the
+colors, the dates — whatever you like. You should not need to touch
+anything below the CONFIGURATION section to personalize a letter.
+
+No installs, no build step. Just edit and double-click the file to
+preview it in your browser.
+
+A few features (background music / voice message playback, and photos
+referenced as files under assets/) work best when this file is opened
+through a local web server rather than double-clicked directly — see the
+"FILE:// LIMITATIONS" note further down in the CSS/JS for details and an
+easy workaround (Windows PowerShell one-liner included).
+==========================================================================
+-->
+
+<style>
+  /* ======================================================================
+     DESIGN TOKENS
+     A romantic-editorial palette: premium stationery, candlelight,
+     luxury invitation. Mirrors the original React/Tailwind template's
+     color and type system 1:1, ported to plain CSS custom properties.
+     ====================================================================== */
+  :root {
+    --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
+    --font-letter: "EB Garamond", "Iowan Old Style", Georgia, serif;
+    --font-script: "Alex Brush", "Segoe Script", cursive;
+    --font-ui: "Inter", system-ui, -apple-system, sans-serif;
+
+    --c-ivory: #fbf6ee;
+    --c-ivory-dim: #f3ead9;
+    --c-cream: #f6ecdd;
+    --c-paper: #f8f1e4;
+    --c-blush: #f0dcd6;
+    --c-blush-deep: #e6c3bb;
+    --c-rose: #c9959a;
+    --c-rose-dust: #b98289;
+    --c-burgundy: #5c1a2b;
+    --c-burgundy-deep: #401120;
+    --c-burgundy-light: #7a2a3d;
+    --c-brown: #6b4a3a;
+    --c-brown-deep: #4a3226;
+    --c-charcoal: #2a2320;
+    --c-charcoal-deep: #16110f;
+    --c-gold: #b8925a;
+    --c-gold-soft: #d9b98a;
+
+    --shadow-letter: 0 30px 60px -20px rgba(42, 35, 32, 0.35), 0 10px 25px -10px rgba(42, 35, 32, 0.25);
+    --shadow-soft: 0 8px 30px -8px rgba(42, 35, 32, 0.25);
+
+    /* Resolved from LOVE_LETTER_CONFIG.theme at startup — see applyTheme() */
+    --page-from: var(--c-ivory);
+    --page-via: var(--c-ivory-dim);
+    --page-to: var(--c-cream);
+    --accent: var(--c-rose-dust);
+    --accent-soft: var(--c-blush);
+    --heading-font: var(--font-display);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--c-charcoal-deep);
+    color: var(--c-charcoal);
+    font-family: var(--font-ui);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #app {
+    position: relative;
+    min-height: 100svh;
+    width: 100%;
+    background: var(--c-charcoal-deep);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  ::selection { background: var(--c-rose-dust); color: var(--c-ivory); }
+
+  button { font-family: inherit; cursor: pointer; }
+
+  img { max-width: 100%; display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
     }
   }
-</script>
-<style>
-  html{ scroll-behavior:smooth; }
-  body{ background:#F7F6F3; color:#161A1F; }
-  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
-  .reveal.in{ opacity:1; transform:translateY(0); }
-  ::-webkit-scrollbar{ width:8px; }
-  ::-webkit-scrollbar-thumb{ background:#22314F; border-radius:4px; }
-  .no-scrollbar::-webkit-scrollbar{ display:none; }
-  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
-  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(var(--r,0deg)); } 50%{ transform:translateY(-14px) rotate(var(--r,0deg)); } }
-  .float{ animation:floaty 5s ease-in-out infinite; }
-  @keyframes sparkle{ 0%,100%{ opacity:.2; transform:scale(.8);} 50%{ opacity:1; transform:scale(1.2);} }
-  .sparkle{ animation:sparkle 2.6s ease-in-out infinite; }
-  .envelope-flap{ transform-origin:top center; transition:transform 1s cubic-bezier(.6,0,.3,1); }
-  .letter-slide{ transition:transform 1.1s cubic-bezier(.2,.7,.2,1), opacity 1.1s ease; }
-  .fade-scale{ transition:opacity .35s ease, transform .35s ease; }
-  input[type=range]{ accent-color:#22314F; }
-  @media (prefers-reduced-motion: reduce){
-    .float, .sparkle{ animation:none !important; }
-    .reveal{ transition:none !important; opacity:1 !important; transform:none !important; }
+
+  /* ---------------------------------------------------------------
+     Utilities
+  ----------------------------------------------------------------- */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .focus-ring { outline: none; }
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--c-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .bg-paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.29 0 0 0 0 0.21 0 0 0 0 0.16 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  .text-shadow-soft { text-shadow: 0 2px 12px rgba(42, 23, 15, 0.25); }
+
+  .page-bg {
+    background: linear-gradient(to bottom, var(--page-from), var(--page-via), var(--page-to));
+  }
+
+  .icon { display: inline-block; vertical-align: -0.15em; }
+  .icon svg { display: block; }
+
+  /* ---------------------------------------------------------------
+     Scenes
+  ----------------------------------------------------------------- */
+  .scene {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .scene.is-visible { opacity: 1; }
+
+  /* ---------------------------------------------------------------
+     Ambient background (shared across scenes)
+  ----------------------------------------------------------------- */
+  .ambient-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+  .ambient-glow {
+    position: absolute;
+    top: -25%; left: 50%;
+    width: 70vh; height: 70vh;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--c-gold-soft) 25%, transparent);
+    filter: blur(64px);
+    animation: ambient-breathe 10s ease-in-out infinite;
+  }
+  @keyframes ambient-breathe {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.75; transform: translateX(-50%) scale(1.05); }
+  }
+  .ambient-bg.paused .ambient-glow,
+  .ambient-bg.paused .dust-mote { animation-play-state: paused; }
+
+  .dust-mote {
+    position: absolute;
+    top: 100%;
+    border-radius: 9999px;
+    background: var(--c-gold-soft);
+    animation-name: dust-float;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes dust-float {
+    0% { transform: translate(0, 0); opacity: 0; }
+    8% { opacity: var(--mote-opacity, 0.3); }
+    92% { opacity: var(--mote-opacity, 0.3); }
+    100% { transform: translate(var(--mote-drift, 10px), -110vh); opacity: 0; }
+  }
+
+  .ambient-darken {
+    position: absolute; inset: 0;
+    background: var(--c-charcoal-deep);
+    transition: opacity 1s ease-out;
+  }
+
+  /* ---------------------------------------------------------------
+     Landing / Envelope
+  ----------------------------------------------------------------- */
+  .landing-wrap {
+    position: relative;
+    display: flex; min-height: 100svh; width: 100%;
+    flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden; padding: 3rem 1.5rem;
+  }
+  .landing-inner {
+    position: relative; z-index: 10;
+    display: flex; width: 100%; max-width: 24rem;
+    flex-direction: column; align-items: center; text-align: center;
+    opacity: 0; transform: translateY(12px);
+    animation: rise-in 0.9s ease-out forwards;
+  }
+  @keyframes rise-in { to { opacity: 1; transform: translateY(0); } }
+
+  .eyebrow {
+    font-family: var(--heading-font);
+    font-size: 0.85rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--c-brown) 70%, transparent);
+  }
+
+  .envelope-btn {
+    position: relative;
+    margin: 2.5rem 0;
+    display: block; width: 100%; max-width: 300px;
+    border: 0; background: transparent; padding: 0;
+    touch-action: manipulation; user-select: none;
+    filter: drop-shadow(0 25px 35px rgba(42,23,15,0.35));
+    animation: envelope-bob 5s ease-in-out infinite;
+    transition: transform 0.2s ease;
+  }
+  .envelope-btn:hover { transform: scale(1.02) rotate(-0.3deg); }
+  .envelope-btn:active { transform: scale(0.98); }
+  @keyframes envelope-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+
+  .envelope-art { position: relative; aspect-ratio: 3 / 2; width: 100%; }
+  .envelope-body {
+    position: absolute; inset: 0; border-radius: 6px;
+    border: 1px solid color-mix(in srgb, var(--c-blush-deep) 50%, transparent);
+    background: linear-gradient(to bottom, var(--c-cream), var(--c-blush));
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+  }
+  .envelope-pockets {
+    position: absolute; inset: 0; top: 38%;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--c-blush) 60%, transparent), color-mix(in srgb, var(--c-blush-deep) 40%, transparent));
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+  }
+  .envelope-flap {
+    position: absolute; inset: 0 0 auto 0; height: 62%;
+    transform-origin: top; border-radius: 6px 6px 0 0;
+    background: linear-gradient(to bottom, var(--c-ivory), var(--c-cream));
+    box-shadow: 0 4px 10px -4px rgba(42,23,15,0.3);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  .envelope-initials {
+    position: absolute; left: 1rem; top: 1rem;
+    font-family: var(--font-display); font-size: 11px; letter-spacing: 0.2em;
+    color: color-mix(in srgb, var(--c-brown) 50%, transparent);
+  }
+  .envelope-seal-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .envelope-seal {
+    position: relative; display: flex; height: 3.5rem; width: 3.5rem;
+    align-items: center; justify-content: center; border-radius: 9999px;
+    background: linear-gradient(135deg, var(--c-burgundy-light), var(--c-burgundy), var(--c-burgundy-deep));
+    box-shadow: 0 6px 14px -4px rgba(64,17,32,0.6), inset 0 2px 3px rgba(255,255,255,0.25), inset 0 -3px 5px rgba(0,0,0,0.35);
+    outline: 2px solid color-mix(in srgb, var(--c-burgundy-deep) 40%, transparent);
+  }
+  .envelope-seal .icon svg { color: var(--c-blush); fill: var(--c-blush); }
+  .envelope-recipient {
+    position: absolute; inset-inline: 0; bottom: 0.75rem; text-align: center;
+    font-family: var(--font-letter); font-style: italic; font-size: 15px;
+    color: color-mix(in srgb, var(--c-brown-deep) 80%, transparent);
+  }
+
+  .btn-primary {
+    border: 0; border-radius: 9999px;
+    background: var(--c-burgundy); color: var(--c-ivory);
+    padding: 0.9rem 2.25rem; font-family: var(--font-ui);
+    font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-primary:hover { transform: scale(1.03); background: var(--c-burgundy-light); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  .btn-secondary {
+    border: 1px solid color-mix(in srgb, var(--c-ivory) 25%, transparent);
+    border-radius: 9999px; background: transparent; color: color-mix(in srgb, var(--c-ivory) 85%, transparent);
+    padding: 0.75rem 1.75rem; font-size: 13px; transition: background-color 0.2s ease;
+  }
+  .btn-secondary:hover { background: color-mix(in srgb, var(--c-ivory) 10%, transparent); }
+
+  .landing-hint {
+    margin-top: 1.25rem; font-family: var(--font-letter); font-style: italic; font-size: 13px;
+    color: color-mix(in srgb, var(--c-brown) 60%, transparent);
+  }
+  .landing-title {
+    margin-top: 2rem; font-family: var(--font-letter); font-size: 15px;
+    color: color-mix(in srgb, var(--c-brown-deep) 70%, transparent);
+  }
+
+  /* ---------------------------------------------------------------
+     Envelope opening cinematic
+  ----------------------------------------------------------------- */
+  .opening-wrap {
+    position: relative; display: flex; min-height: 100svh; width: 100%;
+    align-items: center; justify-content: center; overflow: hidden;
+  }
+  .opening-stage-area {
+    position: relative; z-index: 10; display: flex;
+    height: 320px; width: 100%; max-width: 300px;
+    align-items: center; justify-content: center; perspective: 1400px;
+  }
+  .opening-envelope {
+    position: absolute; inset-inline: 0; top: 50%; transform: translateY(-50%) scale(1);
+    aspect-ratio: 3 / 2; width: 100%;
+    opacity: 1; transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .opening-envelope .envelope-body,
+  .opening-envelope .envelope-pockets,
+  .opening-envelope .envelope-initials { position: absolute; }
+  .opening-envelope .envelope-body { box-shadow: 0 25px 45px -15px rgba(42,23,15,0.5); }
+  .opening-envelope .envelope-flap {
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+  .opening-envelope .envelope-seal-wrap {
+    transition: opacity 0.7s ease-in, transform 0.7s ease-in;
+  }
+  [data-stage="1"] .opening-envelope,
+  [data-stage="2"] .opening-envelope,
+  [data-stage="3"] .opening-envelope,
+  [data-stage="4"] .opening-envelope { transform: translateY(-50%) scale(1.04); }
+  [data-stage="5"] .opening-envelope,
+  [data-stage="6"] .opening-envelope { opacity: 0; transform: translateY(-50%) scale(1.04); }
+
+  [data-stage="3"] .opening-envelope .envelope-flap,
+  [data-stage="4"] .opening-envelope .envelope-flap,
+  [data-stage="5"] .opening-envelope .envelope-flap,
+  [data-stage="6"] .opening-envelope .envelope-flap { transform: rotateX(-165deg); }
+
+  [data-stage="2"] .opening-envelope .envelope-seal-wrap,
+  [data-stage="3"] .opening-envelope .envelope-seal-wrap,
+  [data-stage="4"] .opening-envelope .envelope-seal-wrap,
+  [data-stage="5"] .opening-envelope .envelope-seal-wrap,
+  [data-stage="6"] .opening-envelope .envelope-seal-wrap {
+    opacity: 0; transform: scale(0.4) rotate(25deg) translateY(30px);
+  }
+
+  .opening-letter-card {
+    position: absolute; left: 50%; top: 50%;
+    display: flex; max-width: 240px; aspect-ratio: 3 / 4;
+    transform: translate(-50%, -50%) translateY(40px) scale(0.6);
+    flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 2px; border: 1px solid color-mix(in srgb, var(--c-blush-deep) 30%, transparent);
+    background: var(--c-ivory); padding: 1.5rem; text-align: center;
+    box-shadow: 0 20px 40px -10px rgba(42,23,15,0.4);
+    opacity: 0;
+    transition: transform 0.9s ease-out, opacity 0.9s ease-out;
+  }
+  [data-stage="3"] .opening-letter-card,
+  [data-stage="4"] .opening-letter-card {
+    transform: translate(-50%, -50%) translateY(-60px) scale(0.7);
+    opacity: 1;
+  }
+  [data-stage="5"] .opening-letter-card,
+  [data-stage="6"] .opening-letter-card {
+    transform: translate(-50%, -50%) translateY(0) scale(6);
+    opacity: 1;
+    transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .opening-letter-card p {
+    margin: 0; font-family: var(--font-display); font-size: 14px;
+    color: color-mix(in srgb, var(--c-brown-deep) 70%, transparent);
+  }
+  .opening-letter-card .rule { margin-top: 0.75rem; height: 1px; width: 2.5rem; background: color-mix(in srgb, var(--c-blush-deep) 40%, transparent); }
+
+  .skip-btn {
+    border: 1px solid color-mix(in srgb, var(--c-ivory) 25%, transparent);
+    background: color-mix(in srgb, var(--c-charcoal-deep) 30%, transparent);
+    border-radius: 9999px; padding: 0.5rem 1rem;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: color-mix(in srgb, var(--c-ivory) 70%, transparent);
+    backdrop-filter: blur(4px); transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .skip-btn:hover { background: color-mix(in srgb, var(--c-charcoal-deep) 50%, transparent); color: var(--c-ivory); }
+  .skip-corner { position: absolute; right: 1.25rem; z-index: 20; top: calc(env(safe-area-inset-top) + 1.25rem); }
+
+  /* ---------------------------------------------------------------
+     Letter / typewriter
+  ----------------------------------------------------------------- */
+  .letter-scene { position: relative; min-height: 100svh; width: 100%; padding: 4rem 1.25rem 7rem; }
+  @media (min-width: 640px) { .letter-scene { padding-left: 2rem; padding-right: 2rem; } }
+
+  .letter-paper {
+    margin: 0 auto; max-width: 620px; border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--c-blush-deep) 40%, transparent);
+    background: var(--c-paper);
+    padding: 3rem 1.5rem;
+    box-shadow: var(--shadow-letter);
+    opacity: 0; transform: translateY(24px);
+    animation: rise-in 1s ease-out forwards;
+  }
+  @media (min-width: 640px) { .letter-paper { padding: 4rem 3.5rem; } }
+
+  .letter-greeting { margin: 0; font-family: var(--heading-font); font-size: 1.5rem; color: var(--c-charcoal); }
+  @media (min-width: 640px) { .letter-greeting { font-size: 1.875rem; } }
+
+  .letter-body {
+    margin-top: 2rem; font-family: var(--font-letter); font-size: 19px; line-height: 1.85;
+    color: color-mix(in srgb, var(--c-charcoal) 90%, transparent);
+  }
+  @media (min-width: 640px) { .letter-body { font-size: 21px; } }
+  .letter-body p { margin: 0 0 1.25rem; }
+  .letter-body p:last-child { margin-bottom: 0; }
+
+  .typewriter-cursor {
+    height: 1em; margin-left: 2px; display: inline-block; width: 2px;
+    transform: translateY(2px); background: color-mix(in srgb, var(--c-burgundy) 70%, transparent);
+    animation: lt-blink 1.1s step-end infinite;
+  }
+  @keyframes lt-blink { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+  .letter-closing-wrap { margin-top: 2.5rem; opacity: 0; transition: opacity 0.8s ease; }
+  .letter-closing-wrap.is-shown { opacity: 1; }
+  .letter-closing-line { margin: 0; font-family: var(--font-letter); font-size: 18px; color: color-mix(in srgb, var(--c-charcoal) 80%, transparent); }
+  .letter-signature { margin: 4px 0 0; font-family: var(--font-script); font-size: 2.25rem; color: var(--c-burgundy); }
+  @media (min-width: 640px) { .letter-signature { font-size: 2.75rem; } }
+
+  .continue-btn { margin-top: 3rem; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+  .keep-reading {
+    position: fixed; inset-inline: 0; bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+    z-index: 20; margin: 0 auto; display: flex; width: fit-content; align-items: center; gap: 0.4rem;
+    border: 0; border-radius: 9999px; background: color-mix(in srgb, var(--c-charcoal-deep) 40%, transparent);
+    padding: 0.5rem 1rem; font-size: 12px; color: color-mix(in srgb, var(--c-ivory) 80%, transparent);
+    backdrop-filter: blur(4px);
+    animation: keep-reading-bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes keep-reading-bounce { 0%, 100% { translate: 0 0; } 50% { translate: 0 6px; } }
+  .keep-reading.is-hidden { display: none; }
+
+  /* ---------------------------------------------------------------
+     Rest-of-page (memories / timeline / voice / cta)
+  ----------------------------------------------------------------- */
+  .rest-wrap { opacity: 0; transition: opacity 1s ease; }
+  .rest-wrap.is-shown { opacity: 1; }
+
+  .section-heading {
+    text-align: center; font-family: var(--heading-font); font-size: 1.5rem; color: var(--c-charcoal); margin: 0;
+  }
+  @media (min-width: 640px) { .section-heading { font-size: 1.875rem; } }
+
+  .gallery-section, .timeline-section, .voice-section { position: relative; padding: 5rem 1.25rem; }
+  @media (min-width: 640px) { .gallery-section, .timeline-section, .voice-section { padding-left: 2rem; padding-right: 2rem; } }
+
+  .gallery-track {
+    margin-top: 3rem; display: flex; gap: 1.5rem; overflow-x: auto; padding: 0 1rem 1.5rem;
+    scroll-snap-type: x proximity;
+  }
+  @media (min-width: 640px) { .gallery-track { justify-content: center; flex-wrap: wrap; padding-left: 0; padding-right: 0; } }
+
+  .polaroid {
+    flex-shrink: 0; width: 220px; border: 0; border-radius: 2px; background: var(--c-ivory);
+    padding: 0.75rem 0.75rem 1.25rem; text-align: left; box-shadow: var(--shadow-soft);
+    scroll-snap-align: center;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, scale 0.2s ease;
+  }
+  .polaroid:hover { scale: 1.04; rotate: 0deg !important; }
+  .polaroid.in-view { opacity: 1; transform: translateY(0); }
+  .polaroid-photo { aspect-ratio: 1 / 1; width: 100%; object-fit: cover; }
+  .polaroid-placeholder {
+    display: flex; aspect-ratio: 1 / 1; width: 100%; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--c-blush), var(--c-cream));
+  }
+  .polaroid-caption { margin: 0.75rem 0 0; text-align: center; font-family: var(--font-letter); font-size: 13px; font-style: italic; line-height: 1.3; color: color-mix(in srgb, var(--c-brown-deep) 80%, transparent); }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--c-charcoal-deep) 90%, transparent); padding: 1.5rem; backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .lightbox.is-open { display: flex; opacity: 1; }
+  .lightbox-close {
+    position: absolute; right: 1.25rem; top: calc(env(safe-area-inset-top) + 1.25rem);
+    border: 0; border-radius: 9999px; background: color-mix(in srgb, var(--c-ivory) 10%, transparent);
+    padding: 0.5rem; color: var(--c-ivory);
+  }
+  .lightbox-close:hover { background: color-mix(in srgb, var(--c-ivory) 20%, transparent); }
+  .lightbox-card {
+    max-width: 32rem; border-radius: 2px; background: var(--c-ivory); padding: 1rem 1rem 1.5rem;
+    box-shadow: var(--shadow-letter); transform: scale(0.9); opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease;
+  }
+  .lightbox.is-open .lightbox-card { transform: scale(1); opacity: 1; }
+  .lightbox-caption { margin-top: 1rem; text-align: center; font-family: var(--font-letter); font-style: italic; font-size: 15px; color: color-mix(in srgb, var(--c-brown-deep) 85%, transparent); }
+
+  .timeline-list { position: relative; margin: 3.5rem auto 0; max-width: 36rem; list-style: none; padding: 0; }
+  .timeline-line { position: absolute; left: 9px; top: 4px; bottom: 4px; width: 1px; background: color-mix(in srgb, var(--c-blush-deep) 40%, transparent); }
+  @media (min-width: 640px) { .timeline-line { left: 50%; } }
+  .timeline-item {
+    position: relative; margin-bottom: 3rem; padding-left: 2rem;
+    opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .timeline-item.in-view { opacity: 1; transform: translateY(0); }
+  .timeline-item:last-child { margin-bottom: 0; }
+  @media (min-width: 640px) {
+    .timeline-item { width: 50%; padding-left: 0; }
+    .timeline-item.align-right { margin-left: auto; padding-left: 2.5rem; text-align: left; }
+    .timeline-item.align-left { padding-right: 2.5rem; text-align: right; }
+  }
+  .timeline-dot {
+    position: absolute; left: 0; top: 6px; height: 9px; width: 9px; border-radius: 9999px;
+    background: var(--accent); outline: 4px solid var(--c-ivory);
+  }
+  @media (min-width: 640px) {
+    .timeline-item.align-right .timeline-dot { left: -5px; }
+    .timeline-item.align-left .timeline-dot { left: auto; right: -5px; }
+  }
+  .timeline-date { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); }
+  .timeline-title { margin: 4px 0 0; font-family: var(--heading-font); font-size: 1.125rem; color: var(--c-charcoal); }
+  .timeline-photo { margin-top: 0.75rem; height: 8rem; width: 100%; max-width: 220px; border-radius: 2px; object-fit: cover; box-shadow: var(--shadow-soft); }
+  .timeline-item.align-right .timeline-photo { margin-right: auto; }
+  .timeline-item.align-left .timeline-photo { margin-left: auto; }
+  .timeline-message { margin-top: 0.5rem; font-family: var(--font-letter); font-size: 15px; color: color-mix(in srgb, var(--c-charcoal) 75%, transparent); }
+  .timeline-location { margin-top: 0.35rem; display: flex; align-items: center; gap: 0.25rem; font-size: 12px; color: color-mix(in srgb, var(--c-brown) 60%, transparent); }
+  .timeline-item.align-right .timeline-location { justify-content: flex-start; }
+  .timeline-item.align-left .timeline-location { justify-content: flex-end; }
+
+  .voice-card {
+    margin: 2.5rem auto 0; max-width: 28rem; border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--c-blush-deep) 30%, transparent);
+    background: var(--c-ivory); padding: 1.5rem; box-shadow: var(--shadow-soft);
+  }
+  .voice-label { margin: 0; font-family: var(--font-letter); font-style: italic; font-size: 13px; color: color-mix(in srgb, var(--c-brown) 70%, transparent); }
+  .voice-row { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .voice-play {
+    flex-shrink: 0; display: flex; height: 3rem; width: 3rem; align-items: center; justify-content: center;
+    border: 0; border-radius: 9999px; background: var(--accent); color: var(--c-ivory);
+    box-shadow: var(--shadow-soft); transition: transform 0.1s ease, opacity 0.2s ease;
+  }
+  .voice-play:active { transform: scale(0.95); }
+  .voice-play:disabled { opacity: 0.4; cursor: default; }
+  .voice-bars { display: flex; height: 2.5rem; flex: 1; align-items: center; gap: 3px; }
+  .voice-bar { width: 3px; border-radius: 9999px; background: color-mix(in srgb, var(--c-blush-deep) 30%, transparent); transition: background-color 0.2s ease; transform-origin: center; }
+  .voice-bar.is-active { background: var(--accent); }
+  .voice-bar.is-playing { animation-name: bar-pulse; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+  @keyframes bar-pulse { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(var(--bar-scale, 0.8)); } }
+  .voice-meta { margin-top: 0.75rem; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: color-mix(in srgb, var(--c-brown) 60%, transparent); }
+
+  .one-more-thing { display: flex; justify-content: center; padding: 1rem 0 6rem; }
+
+  /* ---------------------------------------------------------------
+     Music player (persistent, story + final scenes)
+  ----------------------------------------------------------------- */
+  .music-player {
+    position: fixed; left: 1rem; bottom: calc(env(safe-area-inset-bottom) + 1rem); z-index: 40;
+    display: none;
+  }
+  .music-player.is-shown { display: block; }
+  .music-pill {
+    display: flex; align-items: center; gap: 0.5rem; border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--c-blush-deep) 25%, transparent);
+    background: color-mix(in srgb, var(--c-ivory) 90%, transparent);
+    padding: 0.5rem 0.75rem 0.5rem 0.5rem; box-shadow: var(--shadow-soft); backdrop-filter: blur(6px);
+  }
+  .music-toggle {
+    position: relative; display: flex; height: 2.5rem; width: 2.5rem; flex-shrink: 0;
+    align-items: center; justify-content: center; border: 0; border-radius: 9999px;
+    background: var(--c-burgundy); color: var(--c-ivory);
+  }
+  .music-toggle:disabled { opacity: 0.4; }
+  .music-toggle svg.ring-bg { stroke: color-mix(in srgb, var(--c-cream) 25%, transparent); }
+  .music-toggle svg.ring-fg { stroke: var(--c-cream); transition: stroke-dashoffset 0.2s linear; }
+  .music-toggle .icon { position: relative; z-index: 1; }
+  .music-toggle svg.ring { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .music-label {
+    display: flex; align-items: center; gap: 0.4rem; border: 0; background: transparent;
+    font-size: 12px; color: color-mix(in srgb, var(--c-brown-deep) 80%, transparent);
+  }
+  .music-label span { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .music-volume { display: flex; align-items: center; gap: 0.4rem; overflow: hidden; width: 0; transition: width 0.2s ease; }
+  .music-volume.is-open { width: 84px; }
+  .music-volume input[type="range"] { width: 64px; accent-color: var(--c-burgundy); }
+
+  /* ---------------------------------------------------------------
+     Final reveal
+  ----------------------------------------------------------------- */
+  .final-scene {
+    position: relative; display: flex; min-height: 100svh; width: 100%; flex-direction: column;
+    align-items: center; justify-content: center; overflow: hidden; background: var(--c-charcoal-deep);
+    padding: 4rem 1.5rem; text-align: center;
+  }
+  .final-stage-area { position: relative; z-index: 10; display: flex; min-height: 50vh; flex-direction: column; align-items: center; justify-content: center; }
+  .final-line {
+    margin: 0; font-family: var(--font-letter); font-style: italic; font-size: 1.25rem;
+    color: color-mix(in srgb, var(--c-ivory) 70%, transparent);
+    opacity: 0; transition: opacity 1s ease;
+  }
+  .final-line.is-shown { opacity: 1; }
+  .final-big {
+    margin: 0; font-family: var(--font-display); font-size: 3rem; color: var(--c-ivory);
+    text-shadow: 0 2px 12px rgba(42,23,15,0.25);
+    opacity: 0; transform: scale(0.92); transition: opacity 1.1s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1);
+  }
+  @media (min-width: 640px) { .final-big { font-size: 3.75rem; } }
+  .final-big.is-shown { opacity: 1; transform: scale(1); }
+  .final-sub-wrap { display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(10px); transition: opacity 1s ease, transform 1s ease; }
+  .final-sub-wrap.is-shown { opacity: 1; transform: translateY(0); }
+  .final-heading-2 { margin: 0; font-family: var(--font-display); font-size: 2.25rem; color: var(--c-ivory); text-shadow: 0 2px 12px rgba(42,23,15,0.25); }
+  @media (min-width: 640px) { .final-heading-2 { font-size: 3rem; } }
+  .final-sub-text { margin-top: 1rem; max-width: 24rem; font-family: var(--font-letter); font-style: italic; font-size: 17px; color: color-mix(in srgb, var(--c-ivory) 75%, transparent); }
+
+  .final-rest {
+    position: relative; z-index: 10; margin-top: 1rem; display: flex; width: 100%; max-width: 24rem;
+    flex-direction: column; align-items: center;
+    opacity: 0; transform: translateY(20px); transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .final-rest.is-shown { opacity: 1; transform: translateY(0); }
+
+  .final-photo { margin-bottom: 2.5rem; height: 14rem; width: 100%; max-width: 20rem; border-radius: 2px; object-fit: cover; box-shadow: var(--shadow-letter); }
+
+  .signature-wrap { display: flex; flex-direction: column; align-items: center; }
+  .signature-closing { margin: 0; font-family: var(--font-letter); font-size: 15px; color: color-mix(in srgb, var(--c-ivory) 70%, transparent); }
+  .signature-script {
+    margin: 4px 0 0; font-family: var(--font-script); font-size: 3.75rem; color: var(--c-ivory);
+    clip-path: inset(0 100% 0 0); opacity: 0;
+    transition: clip-path 1.6s cubic-bezier(0.65,0,0.35,1), opacity 1.6s cubic-bezier(0.65,0,0.35,1);
+    transition-delay: 0.2s;
+  }
+  @media (min-width: 640px) { .signature-script { font-size: 4.5rem; } }
+  .signature-script.is-shown { clip-path: inset(0 0 0 0); opacity: 1; }
+  .signature-date {
+    margin-top: 0.75rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em;
+    color: color-mix(in srgb, var(--c-ivory) 50%, transparent);
+    opacity: 0; transition: opacity 0.8s ease; transition-delay: 1.9s;
+  }
+  .signature-date.is-shown { opacity: 1; }
+
+  .secret-wrap { margin-top: 3.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .secret-teaser { margin: 0; font-family: var(--font-letter); font-style: italic; font-size: 14px; color: color-mix(in srgb, var(--c-ivory) 60%, transparent); }
+  .secret-btn {
+    margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--c-ivory) 25%, transparent); border-radius: 9999px;
+    background: transparent; padding: 0.6rem 1.5rem; font-size: 12px; letter-spacing: 0.06em;
+    color: color-mix(in srgb, var(--c-ivory) 85%, transparent); transition: background-color 0.2s ease;
+  }
+  .secret-btn:hover { background: color-mix(in srgb, var(--c-ivory) 10%, transparent); }
+  .secret-btn .icon { animation: mail-wiggle 2.4s ease-in-out infinite; display: inline-flex; }
+  @keyframes mail-wiggle { 0%, 100% { rotate: 0deg; } 25% { rotate: -4deg; } 75% { rotate: 4deg; } }
+  .secret-message {
+    max-width: 20rem; font-family: var(--font-letter); font-style: italic; font-size: 16px; color: color-mix(in srgb, var(--c-ivory) 90%, transparent);
+    opacity: 0; transform: scale(0.9) translateY(8px); transition: opacity 0.6s cubic-bezier(0.34,1.4,0.64,1), transform 0.6s cubic-bezier(0.34,1.4,0.64,1);
+  }
+  .secret-message.is-shown { opacity: 1; transform: scale(1) translateY(0); }
+
+  .final-actions { margin-top: 3.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; }
+  .btn-light {
+    display: inline-flex; align-items: center; gap: 0.5rem; border: 0; border-radius: 9999px;
+    background: var(--c-ivory); color: var(--c-charcoal-deep); padding: 0.75rem 1.75rem;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.04em; box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease;
+  }
+  .btn-light:hover { transform: scale(1.03); }
+  .btn-light:active { transform: scale(0.98); }
+
+  /* ---------------------------------------------------------------
+     Modal (leave-a-message)
+  ----------------------------------------------------------------- */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--c-charcoal-deep) 85%, transparent); padding: 1.5rem; backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  .modal-overlay.is-open { display: flex; opacity: 1; }
+  .modal-card {
+    width: 100%; max-width: 24rem; border-radius: 0.5rem; background: var(--c-ivory);
+    padding: 1.5rem; box-shadow: var(--shadow-letter);
+    transform: scale(0.92); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .modal-overlay.is-open .modal-card { transform: scale(1); opacity: 1; }
+  .modal-head { display: flex; align-items: flex-start; justify-content: space-between; }
+  .modal-title { margin: 0; font-family: var(--font-display); font-size: 1.125rem; color: var(--c-charcoal); }
+  .modal-close { border: 0; background: transparent; color: color-mix(in srgb, var(--c-brown) 60%, transparent); }
+  .modal-close:hover { color: var(--c-brown); }
+  .modal-hint { margin: 4px 0 0; font-family: var(--font-letter); font-size: 13px; color: color-mix(in srgb, var(--c-brown) 60%, transparent); }
+  .modal-textarea {
+    margin-top: 1rem; width: 100%; resize: none; border-radius: 0.375rem;
+    border: 1px solid color-mix(in srgb, var(--c-blush-deep) 40%, transparent);
+    background: color-mix(in srgb, var(--c-cream) 60%, transparent); padding: 0.75rem;
+    font-family: var(--font-letter); font-size: 15px; color: var(--c-charcoal);
+  }
+  .modal-textarea::placeholder { color: color-mix(in srgb, var(--c-brown) 40%, transparent); }
+  .modal-copy {
+    margin-top: 1rem; width: 100%; border: 0; border-radius: 9999px; background: var(--c-burgundy);
+    color: var(--c-ivory); padding: 0.75rem; font-size: 13px; transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+  .modal-copy:hover { background: var(--c-burgundy-light); }
+  .modal-copy:disabled { opacity: 0.4; }
 </style>
 </head>
-<body class="antialiased">
-<!-- ============================= NAVBAR ============================= -->
-<header id="navbar" class="fixed top-0 inset-x-0 z-40 transition-all duration-300">
-  <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-20">
-    <a href="#top" class="font-serif italic text-2xl tracking-wide">Ever After.</a>
-    <nav class="hidden md:flex items-center gap-9 text-sm text-charcoal/80">
-      <a href="#gifts" class="hover:text-charcoal transition">Gifts</a>
-      <a href="#how" class="hover:text-charcoal transition">How It Works</a>
-      <a href="#stories" class="hover:text-charcoal transition">Stories</a>
-      <a href="#faq" class="hover:text-charcoal transition">FAQ</a>
-    </nav>
-    <div class="flex items-center gap-4">
-      <button aria-label="Search" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-charcoal/5 transition">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      </button>
-      <button id="cart-btn" aria-label="Open cart" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-charcoal/5 transition">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6 4.5 2H2"/></svg>
-        <span id="cart-count" class="hidden absolute -top-1 -right-1 bg-rose text-cream text-[10px] w-4 h-4 rounded-full items-center justify-center">0</span>
-      </button>
-      <button onclick="document.getElementById('gifts').scrollIntoView()" class="hidden sm:inline-block bg-charcoal text-cream text-sm px-5 py-2.5 rounded-full hover:bg-charcoal/85 transition">Create a Gift</button>
-      <button id="menu-btn" aria-label="Menu" class="md:hidden w-9 h-9 flex items-center justify-center">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-  </div>
-  <!-- mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-cream/95 backdrop-blur border-t border-charcoal/10 px-6 py-5 flex flex-col gap-4 text-sm">
-    <a href="#gifts">Gifts</a><a href="#how">How It Works</a><a href="#stories">Stories</a><a href="#faq">FAQ</a>
-  </div>
-</header>
-<!-- ============================= HERO ============================= -->
-<section id="top" class="relative pt-40 pb-24 md:pt-48 md:pb-32 px-5 md:px-8 overflow-hidden">
-  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 items-center">
-    <div>
-      <p class="text-xs tracking-[0.3em] uppercase text-rose mb-6">Digital Gifts · Made With Feeling</p>
-      <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.05]">The Art of<br><em class="not-italic text-rose">Making</em> Memories.</h1>
-      <p class="mt-6 text-lg text-muted max-w-md leading-relaxed">Turn your favorite moments into something they can open, explore, and keep forever.</p>
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <button onclick="document.getElementById('gifts').scrollIntoView()" class="bg-charcoal text-cream px-7 py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Explore Gifts →</button>
-        <button onclick="document.getElementById('how').scrollIntoView()" class="px-7 py-3.5 rounded-full text-sm border border-charcoal/20 hover:border-charcoal/50 transition">How It Works</button>
-      </div>
-      <div class="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
-        <span>1,000+ memories created</span>
-        <span class="flex items-center gap-1">★★★★★ 5.0 average</span>
-        <span>Instant delivery</span>
-        <span>Private &amp; shareable</span>
-      </div>
-    </div>
-    <div class="relative h-[420px] md:h-[500px]">
-      <div class="absolute inset-0 rounded-[2rem]" style="background:radial-gradient(circle at 60% 40%, #22314F1f, transparent 70%);"></div>
-      <div class="absolute left-4 top-6 w-40 rotate-[-8deg] bg-white p-2.5 pb-6 rounded-sm shadow-xl float" style="--r:-8deg;">
-        <div class="w-full h-32 rounded-sm bg-gradient-to-br from-blush to-surface"></div>
-        <p class="font-serif italic text-xs text-center mt-2 text-muted">summer, 2023</p>
-      </div>
-      <div class="absolute right-6 top-0 w-36 rotate-[6deg] bg-white p-2.5 pb-5 rounded-sm shadow-xl float" style="--r:6deg; animation-delay:.6s;">
-        <div class="w-full h-28 rounded-sm bg-gradient-to-br from-gold/40 to-surface"></div>
-        <p class="font-serif italic text-xs text-center mt-2 text-muted">our song</p>
-      </div>
-      <div class="absolute left-10 bottom-8 right-10 bg-white/90 backdrop-blur rounded-2xl shadow-2xl p-6 border border-charcoal/5 float" style="animation-delay:.3s;">
-        <p class="text-[10px] tracking-[0.25em] uppercase text-rose mb-2">Love Letter</p>
-        <p class="font-serif text-lg leading-snug">"Some memories deserve their own little world..."</p>
-        <div class="mt-4 flex items-center justify-between text-xs text-muted">
-          <span>Interactive envelope</span>
-          <span class="w-7 h-7 rounded-full bg-blush/50 flex items-center justify-center">→</span>
-        </div>
-      </div>
-      <span class="absolute top-2 right-24 text-rose text-lg sparkle">✦</span>
-      <span class="absolute bottom-24 left-2 text-gold text-sm sparkle" style="animation-delay:1s;">✦</span>
-      <span class="absolute top-1/3 right-4 text-blush text-xl sparkle" style="animation-delay:1.6s;">✦</span>
-    </div>
-  </div>
-</section>
-<!-- ============================= CATALOG ============================= -->
-<section id="gifts" class="px-5 md:px-8 py-24 bg-surface/60">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center max-w-xl mx-auto reveal">
-      <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4">The Collection</p>
-      <h2 class="font-serif text-4xl md:text-5xl">Find Something They'll Never Forget.</h2>
-      <p class="mt-4 text-muted">Choose an experience, personalize the details, and turn a simple gift into a memory.</p>
-    </div>
-    <div id="filters" class="flex flex-wrap justify-center gap-2 mt-10 reveal">
-      <!-- injected -->
-    </div>
-    <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-      <!-- injected -->
-    </div>
-  </div>
-</section>
-<!-- ============================= HOW IT WORKS ============================= -->
-<section id="how" class="px-5 md:px-8 py-24">
-  <div class="max-w-6xl mx-auto text-center">
-    <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4 reveal">The Process</p>
-    <h2 class="font-serif text-4xl md:text-5xl reveal">From Idea to "I Love You."</h2>
-    <div class="grid md:grid-cols-3 gap-10 mt-16 text-left">
-      <div class="reveal">
-        <p class="font-serif text-6xl text-blush">01</p>
-        <h3 class="font-serif text-2xl mt-3">Choose</h3>
-        <p class="text-muted mt-2 leading-relaxed">Select the experience that matches your story — a letter, an album, a mixtape, or something stranger.</p>
-      </div>
-      <div class="reveal" style="transition-delay:.1s;">
-        <p class="font-serif text-6xl text-blush">02</p>
-        <h3 class="font-serif text-2xl mt-3">Personalize</h3>
-        <p class="text-muted mt-2 leading-relaxed">Upload photos, videos, music, messages, or a voice recording. Make it unmistakably theirs.</p>
-      </div>
-      <div class="reveal" style="transition-delay:.2s;">
-        <p class="font-serif text-6xl text-blush">03</p>
-        <h3 class="font-serif text-2xl mt-3">Surprise</h3>
-        <p class="text-muted mt-2 leading-relaxed">Receive a private link and send it directly to someone special. No account needed on their end.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ============================= INTERACTIVE DEMO ============================= -->
-<section class="px-5 md:px-8 py-24 bg-charcoal text-cream">
-  <div class="max-w-4xl mx-auto text-center">
-    <p class="text-xs tracking-[0.3em] uppercase text-blush mb-4 reveal">Try It Yourself</p>
-    <h2 class="font-serif text-4xl md:text-5xl reveal">Someone Left You A Letter.</h2>
-    <p class="mt-4 text-cream/60 reveal">This is a small taste of what every gift feels like to open.</p>
-    <div class="relative mt-14 flex justify-center" style="perspective:1400px;">
-      <div id="envelope-wrap" class="relative w-full max-w-md">
-        <!-- letter (behind envelope, slides up) -->
-        <div id="letter" class="letter-slide absolute inset-x-4 top-6 bottom-0 bg-cream text-charcoal rounded-lg shadow-2xl p-7 flex flex-col opacity-0" style="transform:translateY(10px); z-index:1;">
-          <p id="typewriter" class="font-serif text-xl leading-relaxed flex-1"></p>
-          <div id="letter-extra" class="hidden mt-4">
-            <div class="w-full h-28 rounded bg-gradient-to-br from-blush to-surface mb-3"></div>
-            <div class="flex items-center gap-3 text-xs text-muted">
-              <button id="mini-play" class="w-8 h-8 rounded-full bg-charcoal text-cream flex items-center justify-center">▶</button>
-              <div class="flex-1 h-1 bg-charcoal/15 rounded-full overflow-hidden"><div id="mini-bar" class="h-full bg-rose w-0"></div></div>
-              <span>our song.mp3</span>
-            </div>
-          </div>
-        </div>
-        <!-- envelope body -->
-        <div id="envelope-body" class="relative bg-blush/90 rounded-lg shadow-xl h-56 overflow-hidden" style="z-index:2;">
-          <div class="absolute inset-x-0 bottom-0 h-full" style="background:linear-gradient(160deg,#C7D0D9,#AAB6C2);"></div>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <button id="open-envelope" class="relative z-10 bg-charcoal text-cream text-sm px-6 py-3 rounded-full hover:bg-charcoal/85 transition">Open Envelope</button>
-          </div>
-        </div>
-        <!-- flap -->
-        <div id="flap" class="envelope-flap absolute inset-x-0 top-0 h-32" style="z-index:3;">
-          <svg viewBox="0 0 400 140" class="w-full h-full" preserveAspectRatio="none">
-            <polygon points="0,0 400,0 200,130" fill="#AAB6C2"/>
-            <polygon points="0,0 400,0 200,130" fill="none" stroke="#22314F" stroke-width="1"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <p class="mt-8 text-xs tracking-[0.15em] uppercase text-cream/40 reveal">"Some memories deserve their own little world."</p>
-  </div>
-</section>
-<!-- ============================= STORY ============================= -->
-<section id="stories" class="px-5 md:px-8 py-24">
-  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-center">
-    <div class="relative reveal">
-      <div class="aspect-[4/5] rounded-2xl bg-gradient-to-br from-blush via-surface to-gold/30 shadow-xl"></div>
-      <div class="absolute -bottom-6 -right-6 bg-white p-3 pb-8 rounded-sm shadow-xl w-32 rotate-6">
-        <div class="w-full h-20 rounded-sm bg-gradient-to-br from-rose/40 to-surface"></div>
-        <p class="font-serif italic text-[10px] text-center mt-1.5 text-muted">"never forget this"</p>
-      </div>
-    </div>
-    <div class="reveal">
-      <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4">Beyond The Gift</p>
-      <h2 class="font-serif text-4xl md:text-5xl leading-tight">More Than a Gift.<br>A Moment They Can Keep.</h2>
-      <p class="mt-5 text-muted leading-relaxed">Every gift can hold photos, messages, voice recordings, music, videos, important dates, inside jokes, and the small stories that only the two of you would understand.</p>
-      <ul class="mt-6 grid grid-cols-2 gap-3 text-sm text-charcoal/80">
-        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>Photos &amp; video</li>
-        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>Voice recordings</li>
-        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>Music &amp; mixtapes</li>
-        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>Dates &amp; timelines</li>
-      </ul>
-    </div>
-  </div>
-</section>
-<!-- ============================= TESTIMONIALS ============================= -->
-<section class="px-5 md:px-8 py-24 bg-surface/60">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center max-w-xl mx-auto reveal">
-      <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4">Testimonials</p>
-      <h2 class="font-serif text-4xl md:text-5xl">Stories From People Who Sent One.</h2>
-    </div>
-    <div id="testimonials" class="flex md:grid md:grid-cols-4 gap-5 mt-12 overflow-x-auto no-scrollbar pb-2 snap-x">
-      <!-- injected -->
-    </div>
-  </div>
-</section>
-<!-- ============================= STATS ============================= -->
-<section class="px-5 md:px-8 py-20">
-  <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-charcoal/10">
-    <div class="reveal"><p class="font-serif text-4xl md:text-5xl text-rose">1,000+</p><p class="text-xs tracking-[0.15em] uppercase text-muted mt-2">Memories Created</p></div>
-    <div class="reveal" style="transition-delay:.05s;"><p class="font-serif text-4xl md:text-5xl text-rose">5.0</p><p class="text-xs tracking-[0.15em] uppercase text-muted mt-2">Average Rating</p></div>
-    <div class="reveal" style="transition-delay:.1s;"><p class="font-serif text-4xl md:text-5xl text-rose">8+</p><p class="text-xs tracking-[0.15em] uppercase text-muted mt-2">Gift Experiences</p></div>
-    <div class="reveal" style="transition-delay:.15s;"><p class="font-serif text-4xl md:text-5xl text-rose">Instant</p><p class="text-xs tracking-[0.15em] uppercase text-muted mt-2">Digital Delivery</p></div>
-  </div>
-</section>
-<!-- ============================= FAQ ============================= -->
-<section id="faq" class="px-5 md:px-8 py-24">
-  <div class="max-w-3xl mx-auto">
-    <div class="text-center reveal">
-      <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4">Questions</p>
-      <h2 class="font-serif text-4xl md:text-5xl">Good To Know.</h2>
-    </div>
-    <div id="faq-list" class="mt-12 divide-y divide-charcoal/10 reveal"></div>
-  </div>
-</section>
-<!-- ============================= FOOTER ============================= -->
-<footer class="px-5 md:px-8 py-16 bg-charcoal text-cream/70">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
-    <div>
-      <p class="font-serif italic text-2xl text-cream">Ever After.</p>
-      <p class="mt-3 text-sm max-w-xs">Turning moments into something they can open, explore, and keep forever.</p>
-    </div>
-    <div class="flex gap-16 text-sm">
-      <div>
-        <p class="text-cream mb-3">Explore</p>
-        <ul class="space-y-2">
-          <li><a href="#gifts" class="hover:text-cream">Gifts</a></li>
-          <li><a href="#how" class="hover:text-cream">How It Works</a></li>
-          <li><a href="#faq" class="hover:text-cream">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="text-cream mb-3">Try It</p>
-        <ul class="space-y-2">
-          <li><button onclick="openRecipientDemo()" class="hover:text-cream text-left">Recipient preview →</button></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <p class="max-w-7xl mx-auto mt-12 text-xs text-cream/40">A concept storefront built for demonstration purposes.</p>
-</footer>
-<!-- ============================= CART DRAWER ============================= -->
-<div id="cart-overlay" class="fixed inset-0 bg-charcoal/40 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-<aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-cream z-50 shadow-2xl translate-x-full transition-transform duration-400 flex flex-col">
-  <div class="flex items-center justify-between px-6 py-5 border-b border-charcoal/10">
-    <h3 class="font-serif text-2xl">Your Memory Box</h3>
-    <button onclick="closeCart()" aria-label="Close cart" class="w-8 h-8 flex items-center justify-center">✕</button>
-  </div>
-  <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-5 space-y-5"></div>
-  <div id="cart-footer" class="border-t border-charcoal/10 px-6 py-5">
-    <div class="flex gap-2 mb-4">
-      <input id="discount-input" placeholder="Discount code" class="flex-1 border border-charcoal/15 rounded-full px-4 py-2 text-sm bg-white focus:outline-none focus:border-rose">
-      <button onclick="applyDiscount()" class="text-sm px-4 py-2 border border-charcoal/20 rounded-full hover:border-charcoal/50">Apply</button>
-    </div>
-    <div class="flex justify-between text-sm mb-1"><span class="text-muted">Subtotal</span><span id="cart-subtotal">$0.00</span></div>
-    <div id="discount-row" class="hidden flex justify-between text-sm mb-1 text-rose"><span>Discount</span><span id="cart-discount">-$0.00</span></div>
-    <div class="flex justify-between font-serif text-xl mt-2 mb-4"><span>Total</span><span id="cart-total">$0.00</span></div>
-    <button onclick="goToCheckout()" class="w-full bg-charcoal text-cream py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Checkout</button>
-  </div>
-</aside>
-<!-- ============================= PRODUCT PREVIEW MODAL ============================= -->
-<div id="preview-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
-  <div class="bg-cream rounded-2xl max-w-3xl w-full max-h-[88vh] overflow-y-auto shadow-2xl">
-    <div id="preview-content" class="grid md:grid-cols-2"></div>
-  </div>
-</div>
-<!-- ============================= CHECKOUT MODAL ============================= -->
-<div id="checkout-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
-  <div class="bg-cream rounded-2xl max-w-lg w-full max-h-[88vh] overflow-y-auto shadow-2xl p-8">
-    <h3 class="font-serif text-3xl mb-1">Checkout</h3>
-    <p class="text-sm text-muted mb-6">This is a demo checkout — no real payment is processed.</p>
-    <p class="text-xs tracking-[0.2em] uppercase text-rose mb-2">Recipient</p>
-    <div class="grid grid-cols-2 gap-3 mb-6">
-      <input id="co-recipient" placeholder="Their name" class="border border-charcoal/15 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-rose">
-      <input id="co-email" placeholder="Your email" class="border border-charcoal/15 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-rose">
-    </div>
-    <p class="text-xs tracking-[0.2em] uppercase text-rose mb-2">Payment Method</p>
-    <div id="payment-methods" class="grid grid-cols-2 gap-3 mb-6 text-sm"></div>
-    <div class="flex justify-between font-serif text-xl mb-6"><span>Total</span><span id="checkout-total">$0.00</span></div>
-    <button onclick="completeOrder()" class="w-full bg-charcoal text-cream py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Complete Order</button>
-    <button onclick="closeModal('checkout-modal')" class="w-full mt-2 py-2 text-sm text-muted">Back to cart</button>
-  </div>
-</div>
-<!-- ============================= SUCCESS MODAL ============================= -->
-<div id="success-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
-  <div class="bg-cream rounded-2xl max-w-md w-full shadow-2xl p-9 text-center">
-    <div class="w-14 h-14 rounded-full bg-rose text-cream flex items-center justify-center mx-auto text-2xl">✓</div>
-    <h3 class="font-serif text-3xl mt-5">Your gift is ready.</h3>
-    <p class="text-sm text-muted mt-2">Share this link and passcode with them whenever you're ready.</p>
-    <div class="bg-surface rounded-lg p-4 mt-6 text-left">
-      <p class="text-xs text-muted">Private link</p>
-      <div class="flex items-center justify-between mt-1">
-        <p id="gift-link" class="text-sm font-medium truncate pr-2">everafter.gift/g/xk29-mlwq</p>
-        <button onclick="copyLink()" class="text-xs px-3 py-1.5 border border-charcoal/20 rounded-full whitespace-nowrap hover:border-charcoal/50">Copy</button>
-      </div>
-      <p class="text-xs text-muted mt-3">Passcode</p>
-      <p id="gift-passcode" class="text-sm font-medium mt-1">2907</p>
-    </div>
-    <div class="flex gap-3 mt-6">
-      <button onclick="openRecipientDemo()" class="flex-1 bg-charcoal text-cream py-3 rounded-full text-sm hover:bg-charcoal/85">Open Gift</button>
-      <button onclick="closeModal('success-modal')" class="flex-1 border border-charcoal/20 py-3 rounded-full text-sm hover:border-charcoal/50">Done</button>
-    </div>
-  </div>
-</div>
-<!-- ============================= RECIPIENT EXPERIENCE ============================= -->
-<div id="recipient-view" class="fixed inset-0 z-[60] bg-[#0D1117] text-cream opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto">
-  <button onclick="closeRecipientDemo()" class="fixed top-5 right-5 z-10 w-9 h-9 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center">✕</button>
-  <div class="min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center">
-    <div id="rv-stage-1">
-      <p class="text-xs tracking-[0.3em] uppercase text-blush mb-6">for Jordan</p>
-      <p class="font-serif text-4xl md:text-5xl mb-10">You have a gift.</p>
-      <button onclick="recipientOpen()" class="bg-cream text-charcoal px-8 py-3.5 rounded-full text-sm hover:bg-cream/90">Open</button>
-    </div>
-    <div id="rv-stage-2" class="hidden max-w-lg">
-      <p class="font-serif text-2xl md:text-3xl leading-relaxed" id="rv-message"></p>
-      <div class="grid grid-cols-3 gap-3 mt-10">
-        <div class="aspect-square rounded-lg bg-gradient-to-br from-blush/60 to-transparent"></div>
-        <div class="aspect-square rounded-lg bg-gradient-to-br from-gold/50 to-transparent"></div>
-        <div class="aspect-square rounded-lg bg-gradient-to-br from-rose/50 to-transparent"></div>
-      </div>
-      <p class="mt-10 text-cream/50 text-xs tracking-[0.2em] uppercase">Here's to many more.</p>
-    </div>
-  </div>
-</div>
-<!-- ============================= FLOATING MUSIC PLAYER ============================= -->
-<div id="music-player" class="fixed bottom-5 left-5 z-40 bg-cream shadow-xl rounded-full pl-2 pr-5 py-2 flex items-center gap-3 border border-charcoal/10 opacity-0 pointer-events-none transition-opacity duration-500">
-  <div class="w-9 h-9 rounded-full bg-gradient-to-br from-rose to-gold"></div>
-  <div>
-    <p class="text-xs font-medium leading-tight">Our Song</p>
-    <p class="text-[10px] text-muted leading-tight">Ever After Mixtape</p>
-  </div>
-  <button id="player-toggle" class="w-7 h-7 rounded-full bg-charcoal text-cream text-xs flex items-center justify-center">▶</button>
-</div>
+<body>
+<div id="app" role="application" aria-label="A love letter"></div>
+
 <script>
-/* ============================= DATA ============================= */
-const PRODUCTS = [
-  { id:'love-letter', name:'Love Letter', category:'Letters', price:19.99, badge:'Bestseller',
-    desc:'An interactive digital envelope with a cinematic typewriter animation.',
-    features:['Interactive envelope','Typewriter animation','Photo gallery','Music'],
-    livePreview:'index.html' },
-  { id:'memory-box', name:'Memory Box', category:'Memories', price:29.99, badge:'Popular',
-    desc:'A digital collection of photos, videos, messages, and memories in one place.',
-    features:['Unlimited photos','Video support','Custom captions','Private link'] },
-  { id:'voices', name:'Voices', category:'Memories', price:24.99,
-    desc:'A gift built around personal voice recordings, paired with photos.',
-    features:['Voice recordings','Photo pairing','Playback controls','Downloadable'] },
-  { id:'mixtape', name:'Mixtape', category:'Music', price:22.99, badge:'New',
-    desc:'A retro cassette-inspired experience built around music and memories.',
-    features:['Custom tracklist','Cassette animation','Liner notes','Shareable link'] },
-  { id:'date-ticket', name:'Date Ticket', category:'Invitations', price:14.99,
-    desc:'An interactive invitation where the recipient discovers the date plan.',
-    features:['Reveal animation','Location teaser','RSVP button','Countdown'] },
-  { id:'arcade', name:'Arcade', category:'Games', price:34.99,
-    desc:'A mini-game experience with multiple surprise rooms to explore.',
-    features:['3 mini-games','Hidden messages','Unlockable rooms','Leaderboard'] },
-  { id:'retro-computer', name:'Retro Computer', category:'Experiences', price:27.99,
-    desc:'A nostalgic desktop-style surprise experience to click through.',
-    features:['Desktop interface','Fake file system','Easter eggs','Custom wallpaper'] },
-  { id:'our-story', name:'Our Story', category:'Experiences', price:32.99, badge:'Featured',
-    desc:'A multi-page interactive timeline documenting a relationship.',
-    features:['Timeline builder','Milestone markers','Photo per chapter','Final chapter reveal'] },
-];
-const CATEGORIES = ['All','Letters','Memories','Music','Experiences','Games','Invitations'];
-const TESTIMONIALS = [
-  { name:'Sofia', gift:'Memory Box', quote:'She opened it at midnight and immediately called me. It felt like giving her a memory instead of just a gift.' },
-  { name:'Marcus', gift:'Love Letter', quote:'The typewriter animation got me before I even finished reading. Worth every second of setup.' },
-  { name:'Priya', gift:'Mixtape', quote:"He said it was the first gift that actually made him cry. That's the whole review." },
-  { name:'Daniel', gift:'Our Story', quote:"We used it for our anniversary and now it's basically our relationship's official archive." },
-];
-const FAQS = [
-  { q:'How quickly will I receive my gift?', a:'Most self-edit gifts are available immediately after purchase.' },
-  { q:'Does the recipient need an account?', a:'No. The recipient only needs the private link and, optionally, a passcode.' },
-  { q:'Can I upload my own photos?', a:'Yes — every gift supports your own photos.' },
-  { q:'Can I add music?', a:'Yes, depending on the template you choose.' },
-  { q:'Can I customize the message?', a:'Yes, every gift includes an editable personal message.' },
-  { q:'Can I send the gift anonymously?', a:'Where appropriate, you can choose to send without revealing your name.' },
-  { q:'Can I edit my gift later?', a:'Yes — every order includes a private manage link for edits.' },
-];
-const PAYMENT_METHODS = ['QR Payment','E-Wallet','Card','Online Banking'];
-/* ============================= STATE ============================= */
-let cart = [];
-let activeFilter = 'All';
-let discountApplied = false;
-/* ============================= NAVBAR SCROLL ============================= */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', ()=>{
-  if (window.scrollY > 40){
-    navbar.classList.add('bg-cream/85','backdrop-blur-md','shadow-sm');
-  } else {
-    navbar.classList.remove('bg-cream/85','backdrop-blur-md','shadow-sm');
+/* ==========================================================================
+   1. CONFIGURATION
+   --------------------------------------------------------------------------
+   Everything a couple would want to personalize lives in this one object.
+   Nothing below this section needs to change to send a real letter.
+
+   NOTE ON SCOPE: this file is the standalone build of the "Love Letter"
+   template. Its cinematic centerpiece is the wax-seal ENVELOPE opening you
+   see below (seal breaks, flap opens, the letter slides out and expands) —
+   that is this template's actual opening sequence. A gift-box / flower-
+   explosion opening is a different, separate template ("Gift Box → Flower
+   Explosion") from the same Ever After collection; it is not part of the
+   Love Letter experience, so it hasn't been bolted on here.
+   ========================================================================== */
+
+/** Ported 1:1 from the React template's demoAssets.ts — tiny generated
+ *  placeholder photos so the preview looks complete before real photos are
+ *  added. Replace any of these with a real path/URL/data-URI whenever you
+ *  like; leave a memory's image as "" to show the "no photo yet" placeholder.
+ *  Defined here, ABOVE the config, because the config below calls it. */
+const DEMO_PAIRS = [
+  ['#f0dcd6', '#c9959a'], ['#f6ecdd', '#b8925a'], ['#e6c3bb', '#7a2a3d'],
+  ['#f8f1e4', '#6b4a3a'], ['#f0dcd6', '#5c1a2b'], ['#f6ecdd', '#d9b98a'],
+]
+function demoPhoto(seed, label) {
+  const [a, b] = DEMO_PAIRS[seed % DEMO_PAIRS.length]
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <defs><linearGradient id="g${seed}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+  <rect width="480" height="480" fill="url(#g${seed})"/>
+  <circle cx="${120 + (seed * 47) % 240}" cy="${100 + (seed * 83) % 280}" r="90" fill="#ffffff" opacity="0.08"/>
+  <path d="M240 300c-40-28-72-56-72-92a40 40 0 0 1 72-24 40 40 0 0 1 72 24c0 36-32 64-72 92z" fill="#ffffff" opacity="0.22"/>
+  <text x="240" y="430" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#ffffff" opacity="0.55">${label}</text>
+</svg>`.trim()
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
+}
+
+const LOVE_LETTER_CONFIG = {
+
+  // =========================
+  // BASIC INFORMATION
+  // =========================
+  recipientName: "Ko Eun Sae",
+  senderName: "Jang Tae Ha",
+  /** Optional pet name — used only where the text below calls for {{nickname}}. */
+  nickname: "Love",
+
+  // Landing screen (the sealed envelope)
+  openingEyebrow: "For You, Always.",
+  openingTitle: "Someone left you a letter.",
+  openingHint: "Take your time.",
+
+  // =========================
+  // THE LETTER
+  // =========================
+  // Separate paragraphs with a BLANK LINE (this is what creates the
+  // typewriter's paragraph pauses). Supports {{recipientName}}, {{senderName}},
+  // {{nickname}}, {{date}}, {{specialDate}}.
+  message:
+`I don't really know where to begin.
+
+Maybe with the first time I realized how much you meant to me. Or maybe with all the little moments that somehow became my favorite memories — the ones that felt like nothing at the time, and everything looking back.
+
+I keep thinking about how easy it is to love you. How you make ordinary days feel like something worth remembering. I never planned on finding someone like you, and I definitely never expected it to feel this simple.
+
+But if there's one thing I want you to know, it's this: I'm grateful for you. For your patience, your laugh, the way you say my name, the way you make a room feel warmer just by being in it.
+
+So here's a little letter, {{nickname}}, for everything I don't say enough.`,
+
+  closingLine: "Always yours,",
+  signature: "Jang Tae Ha",
+  date: "August 21, 2026",
+  specialDate: "June 12, 2024",
+
+  // =========================
+  // TYPEWRITER
+  // =========================
+  typing: {
+    enabled: true,
+    speed: 42,                 // ms between characters — lower = faster
+    delayBeforeTyping: 500,    // ms before the first character appears
+    pauseBetweenParagraphs: 1100,
+    cursor: true,
+    sound: false,               // soft synthesized key-tick (Web Audio, no files)
+  },
+
+  // =========================
+  // MEMORIES (photo gallery)
+  // =========================
+  // image accepts: a relative path ("assets/images/photo-01.jpg"), a full
+  // URL, or a base64 data URI. Leave image empty ("") to show an elegant
+  // "no photo yet" placeholder instead of a broken image icon.
+  // The demo images below are tiny generated placeholders — replace them
+  // with your own photos, or clear them out entirely.
+  memoriesHeading: "A Few Moments I Never Want to Forget",
+  memories: [
+    { image: "1.png", caption: "Our first coffee together." },
+    { image: "2.png", caption: "That random Tuesday that became one of my favorite days." },
+    { image: "3.png", caption: "You laughing at something I still don't understand." },
+    { image: "4.png", caption: "Golden hour, your favorite kind of light." },
+    { image: "5.png", caption: "A quiet moment I keep coming back to." },
+    { image: "10.png", caption: "This one says it all." },
+  ],
+
+  // =========================
+  // TIMELINE ("Our Story So Far")
+  // =========================
+  timelineHeading: "Our Story So Far",
+  timeline: [
+    { title: "The Beginning", date: "June 12, 2024", message: "The day everything changed, quietly.", image: "6.png" },
+    { title: "The First Date", date: "July 03, 2024", message: "I was more nervous than I let on.", location: "That little café downtown", image: "7.png" },
+    { title: "Our Favorite Memory", date: "December 24, 2024", message: "Still the best night of my year.", image: "8.png" },
+    { title: "Today", date: "August 21, 2026", message: "And I still can't believe I get to love you.", image: "9.png" },
+  ],
+
+  // =========================
+  // MUSIC (background player, bottom-left)
+  // =========================
+  // Music starts automatically the moment the envelope is pressed — that
+  // click is the required "user gesture" browsers need before they'll let
+  // any page play sound; nothing plays before that tap, by browser design.
+  //
+  // youtubeUrl needs an internet connection and works best when this file
+  // is opened over http(s) rather than double-clicked (see the file://
+  // note further down). If it doesn't seem to be playing, the most
+  // reliable fix is to leave youtubeUrl empty and use audioUrl with an
+  // actual mp3/ogg file instead (e.g. "assets/audio/our-song.mp3") — that
+  // works instantly from a plain double-click with no network required.
+  music: {
+    enabled: true,
+    title: "Shape of My Heart — Backstreet Boys",
+    // A real mp3 sitting right next to this HTML file — takes priority
+    // over youtubeUrl below (only one plays; see startBackgroundMusic()).
+    audioUrl: "Backstreet Boys - Shape of My Heart (Lyrics) - Vibe Music.mp3",
+    // YouTube fallback — only used if audioUrl above is left empty.
+    youtubeUrl: "https://www.youtube.com/watch?v=fMLDOTZ_rjE",
+  },
+
+  // =========================
+  // VOICE MESSAGE
+  // =========================
+  voiceMessage: {
+    enabled: true,
+    audioUrl: "recording.mp3",
+    label: "A little something from me",
+  },
+
+  // =========================
+  // SECRET MESSAGE ("P.S.")
+  // =========================
+  secretMessage: {
+    enabled: true,
+    teaser: "P.S. There's something else...",
+    message: "Check your phone. I have one more surprise for you.",
+  },
+
+  // =========================
+  // FINAL PHOTO (shown on the closing "I love you." screen)
+  // =========================
+  finalPhoto: "Last photo.png",
+
+  // =========================
+  // THEME
+  // =========================
+  theme: {
+    background: "ivory",     // "ivory" | "cream" | "blush"
+    accent: "rose",          // "rose" | "burgundy" | "gold"
+    typography: "editorial", // "editorial" (Playfair Display headings) | "classic" (EB Garamond headings)
+  },
+}
+
+/* ==========================================================================
+   2. APPLICATION STATE
+   ========================================================================== */
+const STATE = {
+  scene: 'landing',        // 'landing' | 'opening' | 'story' | 'final'
+  letterFinished: false,
+  musicStarted: false,
+}
+
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+let REDUCED_MOTION = prefersReducedMotion()
+window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => { REDUCED_MOTION = e.matches })
+
+let PAGE_VISIBLE = document.visibilityState === 'visible'
+document.addEventListener('visibilitychange', () => {
+  PAGE_VISIBLE = document.visibilityState === 'visible'
+  document.querySelectorAll('.ambient-bg').forEach((el) => el.classList.toggle('paused', !PAGE_VISIBLE))
+  if (!PAGE_VISIBLE) {
+    document.querySelectorAll('audio').forEach((a) => a.pause())
   }
-});
-document.getElementById('menu-btn').addEventListener('click', ()=>{
-  document.getElementById('mobile-menu').classList.toggle('hidden');
-});
-/* ============================= REVEAL ON SCROLL ============================= */
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold:.15 });
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-/* ============================= RENDER FILTERS ============================= */
-const filtersEl = document.getElementById('filters');
-CATEGORIES.forEach(cat=>{
-  const btn = document.createElement('button');
-  btn.textContent = cat;
-  btn.dataset.cat = cat;
-  btn.className = filterClass(cat === activeFilter);
-  btn.addEventListener('click', ()=>{
-    activeFilter = cat;
-    document.querySelectorAll('#filters button').forEach(b=> b.className = filterClass(b.dataset.cat===cat));
-    renderProducts();
-  });
-  filtersEl.appendChild(btn);
-});
-function filterClass(active){
-  return `text-sm px-4 py-2 rounded-full border transition ${active ? 'bg-charcoal text-cream border-charcoal' : 'border-charcoal/20 text-charcoal/70 hover:border-charcoal/50'}`;
-}
-/* ============================= RENDER PRODUCTS ============================= */
-const gridEl = document.getElementById('product-grid');
-function renderProducts(){
-  gridEl.innerHTML = '';
-  const list = activeFilter === 'All' ? PRODUCTS : PRODUCTS.filter(p=>p.category===activeFilter);
-  list.forEach((p,i)=>{
-    const card = document.createElement('div');
-    card.className = 'group bg-white rounded-2xl overflow-hidden border border-charcoal/5 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 reveal in';
-    card.style.transitionDelay = (i%3)*0.05 + 's';
-    card.innerHTML = `
-      <div class="relative aspect-[4/3] overflow-hidden">
-        <div class="w-full h-full bg-gradient-to-br ${gradientFor(p.category)} transition-transform duration-500 group-hover:scale-105"></div>
-        ${p.badge ? `<span class="absolute top-3 left-3 bg-cream/90 text-charcoal text-[10px] tracking-wide uppercase px-2.5 py-1 rounded-full">${p.badge}</span>` : ''}
-        <span class="absolute bottom-3 right-3 bg-charcoal/70 text-cream text-[10px] px-2 py-1 rounded-full">${p.category}</span>
-        ${p.livePreview ? `<span class="absolute bottom-3 left-3 bg-rose text-cream text-[10px] px-2 py-1 rounded-full">Live Demo</span>` : ''}
-      </div>
-      <div class="p-5">
-        <h3 class="font-serif text-xl">${p.name}</h3>
-        <p class="text-sm text-muted mt-1 leading-snug">${p.desc}</p>
-        <div class="flex items-center justify-between mt-4">
-          <span class="font-medium">$${p.price.toFixed(2)}</span>
-          <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button class="text-xs px-3 py-1.5 border border-charcoal/20 rounded-full hover:border-charcoal/50" onclick="openPreview('${p.id}')">Preview</button>
-            <button class="text-xs px-3 py-1.5 bg-charcoal text-cream rounded-full hover:bg-charcoal/85" onclick="addToCart('${p.id}')">Create Gift</button>
-          </div>
-        </div>
-      </div>`;
-    gridEl.appendChild(card);
-  });
-}
-function gradientFor(cat){
-  const map = { Letters:'from-blush to-surface', Memories:'from-gold/40 to-surface', Music:'from-rose/40 to-surface',
-    Invitations:'from-blush/70 to-gold/20', Games:'from-charcoal/20 to-blush/30', Experiences:'from-gold/30 to-rose/20' };
-  return map[cat] || 'from-blush to-surface';
-}
-renderProducts();
-/* ============================= PREVIEW MODAL ============================= */
-function openPreview(id){
-  const p = PRODUCTS.find(x=>x.id===id);
-  document.getElementById('preview-content').innerHTML = `
-    <div class="aspect-square md:aspect-auto bg-gradient-to-br ${gradientFor(p.category)}"></div>
-    <div class="p-8 flex flex-col">
-      <span class="text-xs tracking-[0.2em] uppercase text-rose mb-2">${p.category}</span>
-      <h3 class="font-serif text-3xl">${p.name}</h3>
-      <p class="text-muted mt-3 leading-relaxed">${p.desc}</p>
-      <ul class="mt-5 space-y-2 text-sm">
-        ${p.features.map(f=>`<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>${f}</li>`).join('')}
-      </ul>
-      ${p.livePreview ? `
-      <button onclick="window.open('${p.livePreview}', '_blank')" class="mt-5 w-full flex items-center justify-center gap-2 border border-rose text-rose px-6 py-3 rounded-full text-sm hover:bg-rose hover:text-cream transition">
-        Preview the Full Experience →
-      </button>` : ''}
-      <div class="mt-auto pt-6 flex items-center justify-between">
-        <span class="font-serif text-2xl">$${p.price.toFixed(2)}</span>
-        <button onclick="addToCart('${p.id}'); closeModal('preview-modal');" class="bg-charcoal text-cream px-6 py-3 rounded-full text-sm hover:bg-charcoal/85">Create This Gift</button>
-      </div>
-    </div>`;
-  openModal('preview-modal');
-}
-/* ============================= MODAL HELPERS ============================= */
-function openModal(id){
-  const m = document.getElementById(id);
-  m.classList.remove('pointer-events-none','opacity-0');
-  m.querySelector('div').style.transform = 'scale(1)';
-}
-function closeModal(id){
-  document.getElementById(id).classList.add('pointer-events-none','opacity-0');
-}
-/* ============================= CART ============================= */
-function addToCart(id){
-  const existing = cart.find(c=>c.id===id);
-  if (existing){ existing.qty++; } else { cart.push({ id, qty:1 }); }
-  renderCart();
-  openCart();
-}
-function removeFromCart(id){
-  cart = cart.filter(c=>c.id!==id);
-  renderCart();
-}
-function changeQty(id, delta){
-  const item = cart.find(c=>c.id===id);
-  if(!item) return;
-  item.qty += delta;
-  if (item.qty <= 0){ removeFromCart(id); } else { renderCart(); }
-}
-function renderCart(){
-  const wrap = document.getElementById('cart-items');
-  const countBadge = document.getElementById('cart-count');
-  const totalItems = cart.reduce((s,c)=>s+c.qty,0);
-  countBadge.textContent = totalItems;
-  countBadge.classList.toggle('hidden', totalItems===0);
-  countBadge.classList.toggle('flex', totalItems>0);
-  if (cart.length === 0){
-    wrap.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center py-20">
-      <p class="font-serif text-xl">Your memory box is empty.</p>
-      <button onclick="closeCart(); document.getElementById('gifts').scrollIntoView();" class="mt-4 text-sm px-5 py-2.5 border border-charcoal/20 rounded-full hover:border-charcoal/50">Explore Gifts</button>
-    </div>`;
-  } else {
-    wrap.innerHTML = cart.map(c=>{
-      const p = PRODUCTS.find(x=>x.id===c.id);
-      return `<div class="flex gap-4">
-        <div class="w-16 h-16 rounded-lg bg-gradient-to-br ${gradientFor(p.category)} shrink-0"></div>
-        <div class="flex-1">
-          <div class="flex justify-between">
-            <p class="font-serif text-lg">${p.name}</p>
-            <button onclick="removeFromCart('${p.id}')" class="text-muted text-xs">Remove</button>
-          </div>
-          <p class="text-xs text-muted">${p.category}</p>
-          <div class="flex items-center justify-between mt-2">
-            <div class="flex items-center gap-2 border border-charcoal/15 rounded-full px-2 py-1">
-              <button onclick="changeQty('${p.id}',-1)" class="w-5 h-5 text-sm">–</button>
-              <span class="text-sm w-4 text-center">${c.qty}</span>
-              <button onclick="changeQty('${p.id}',1)" class="w-5 h-5 text-sm">+</button>
-            </div>
-            <span class="text-sm font-medium">$${(p.price*c.qty).toFixed(2)}</span>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
+})
+
+/* ==========================================================================
+   3. UTILITIES & ICONS
+   ========================================================================== */
+const TEMPLATE_VARIABLE = /\{\{\s*(\w+)\s*\}\}/g
+
+/** Resolves {{recipientName}}-style placeholders against the config. */
+function resolveTemplate(text, config) {
+  const dict = {
+    recipientName: config.recipientName,
+    senderName: config.senderName,
+    nickname: config.nickname ?? config.recipientName,
+    date: config.date,
+    specialDate: config.specialDate ?? config.date,
+    message: config.message,
   }
-  updateTotals();
+  return text.replace(TEMPLATE_VARIABLE, (match, key) => (dict[key] ?? match))
 }
-function subtotal(){
-  return cart.reduce((s,c)=> s + PRODUCTS.find(p=>p.id===c.id).price * c.qty, 0);
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return '0:00'
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
+  return `${m}:${s.toString().padStart(2, '0')}`
 }
-function updateTotals(){
-  const sub = subtotal();
-  const discount = discountApplied ? sub*0.1 : 0;
-  document.getElementById('cart-subtotal').textContent = '$'+sub.toFixed(2);
-  document.getElementById('cart-discount').textContent = '-$'+discount.toFixed(2);
-  document.getElementById('discount-row').classList.toggle('hidden', !discountApplied);
-  document.getElementById('cart-total').textContent = '$'+(sub-discount).toFixed(2);
-  document.getElementById('checkout-total').textContent = '$'+(sub-discount).toFixed(2);
+
+function el(html) {
+  const t = document.createElement('template')
+  t.innerHTML = html.trim()
+  return t.content.firstElementChild
 }
-function applyDiscount(){
-  const val = document.getElementById('discount-input').value.trim().toUpperCase();
-  discountApplied = (val === 'SAVE10');
-  updateTotals();
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
 }
-/* cart drawer open/close */
-function openCart(){
-  document.getElementById('cart-drawer').classList.remove('translate-x-full');
-  document.getElementById('cart-overlay').classList.remove('opacity-0','pointer-events-none');
+
+/** Small inline icon set standing in for the original template's lucide-react icons. */
+const ICONS = {
+  heart: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>',
+  arrowDown: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>',
+  chevronDown: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+  rotateCcw: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>',
+  x: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+  music2: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="18" r="4"/><path d="M12 18V2l7 4"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="none"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>',
+  play: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="none"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
+  volume2: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>',
+  volume1: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
+  volumeX: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>',
+  imageOff: '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M18 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6"/><path d="M21 15V6a2 2 0 0 0-2-2H9"/><path d="m2 2 20 20"/></svg>',
+  mapPin: '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
 }
-function closeCart(){
-  document.getElementById('cart-drawer').classList.add('translate-x-full');
-  document.getElementById('cart-overlay').classList.add('opacity-0','pointer-events-none');
+function icon(name, cls) { return `<span class="icon${cls ? ' ' + cls : ''}">${ICONS[name] || ''}</span>` }
+
+/** Resolves config.theme into CSS custom properties on :root. */
+function applyTheme(theme) {
+  const BACKGROUNDS = {
+    ivory: ['var(--c-ivory)', 'var(--c-ivory-dim)', 'var(--c-cream)'],
+    cream: ['var(--c-cream)', 'var(--c-paper)', 'var(--c-ivory-dim)'],
+    blush: ['var(--c-blush)', 'var(--c-cream)', 'var(--c-ivory)'],
+  }
+  const ACCENTS = {
+    rose: { accent: 'var(--c-rose-dust)', soft: 'var(--c-blush)' },
+    burgundy: { accent: 'var(--c-burgundy)', soft: 'var(--c-blush-deep)' },
+    gold: { accent: 'var(--c-gold)', soft: 'color-mix(in srgb, var(--c-gold-soft) 30%, transparent)' },
+  }
+  const bg = BACKGROUNDS[theme?.background] || BACKGROUNDS.ivory
+  const accent = ACCENTS[theme?.accent] || ACCENTS.rose
+  const root = document.documentElement.style
+  root.setProperty('--page-from', bg[0])
+  root.setProperty('--page-via', bg[1])
+  root.setProperty('--page-to', bg[2])
+  root.setProperty('--accent', accent.accent)
+  root.setProperty('--accent-soft', accent.soft)
+  root.setProperty('--heading-font', theme?.typography === 'classic' ? 'var(--font-letter)' : 'var(--font-display)')
 }
-document.getElementById('cart-btn').addEventListener('click', openCart);
-document.getElementById('cart-overlay').addEventListener('click', closeCart);
-renderCart();
-/* ============================= CHECKOUT ============================= */
-function goToCheckout(){
-  if (cart.length===0) return;
-  closeCart();
-  const pmWrap = document.getElementById('payment-methods');
-  pmWrap.innerHTML = PAYMENT_METHODS.map((m,i)=>`
-    <label class="flex items-center gap-2 border border-charcoal/15 rounded-lg px-3 py-2.5 cursor-pointer has-[:checked]:border-rose has-[:checked]:bg-blush/10">
-      <input type="radio" name="pm" ${i===0?'checked':''} class="accent-rose">
-      <span>${m}</span>
-    </label>`).join('');
-  updateTotals();
-  openModal('checkout-modal');
-}
-function completeOrder(){
-  closeModal('checkout-modal');
-  cart = [];
-  discountApplied = false;
-  renderCart();
-  openModal('success-modal');
-}
-function copyLink(){
-  navigator.clipboard?.writeText(document.getElementById('gift-link').textContent).catch(()=>{});
-  const btn = event.target;
-  const old = btn.textContent;
-  btn.textContent = 'Copied';
-  setTimeout(()=> btn.textContent = old, 1400);
-}
-/* ============================= FAQ ============================= */
-const faqList = document.getElementById('faq-list');
-FAQS.forEach((f,i)=>{
-  const row = document.createElement('div');
-  row.className = 'py-5';
-  row.innerHTML = `
-    <button class="w-full flex items-center justify-between text-left" onclick="toggleFaq(${i})">
-      <span class="font-serif text-lg">${f.q}</span>
-      <span id="faq-icon-${i}" class="text-rose text-xl transition-transform">+</span>
-    </button>
-    <p id="faq-a-${i}" class="hidden text-muted text-sm mt-3 leading-relaxed max-w-xl">${f.a}</p>`;
-  faqList.appendChild(row);
-});
-function toggleFaq(i){
-  const a = document.getElementById('faq-a-'+i);
-  const icon = document.getElementById('faq-icon-'+i);
-  const open = !a.classList.contains('hidden');
-  a.classList.toggle('hidden');
-  icon.textContent = open ? '+' : '–';
-}
-/* ============================= TESTIMONIALS ============================= */
-const testEl = document.getElementById('testimonials');
-TESTIMONIALS.forEach(t=>{
-  const card = document.createElement('div');
-  card.className = 'snap-start shrink-0 w-72 md:w-auto bg-white rounded-2xl p-6 border border-charcoal/5 shadow-sm';
-  card.innerHTML = `
-    <p class="text-rose text-sm mb-3">★★★★★</p>
-    <p class="text-sm leading-relaxed">"${t.quote}"</p>
-    <p class="text-xs text-muted mt-4">— ${t.name} · ${t.gift}</p>`;
-  testEl.appendChild(card);
-});
-/* ============================= INTERACTIVE ENVELOPE DEMO ============================= */
-const openBtn = document.getElementById('open-envelope');
-const flap = document.getElementById('flap');
-const letter = document.getElementById('letter');
-const typewriterEl = document.getElementById('typewriter');
-const letterExtra = document.getElementById('letter-extra');
-const fullMessage = "Happy anniversary. I made this because words in a text never feel like enough — I wanted to give you something you could open, instead of just read.";
-let envelopeOpened = false;
-openBtn.addEventListener('click', ()=>{
-  if (envelopeOpened) return;
-  envelopeOpened = true;
-  flap.style.transform = 'rotateX(180deg)';
-  openBtn.style.opacity = '0';
-  setTimeout(()=>{
-    letter.style.opacity = '1';
-    letter.style.transform = 'translateY(-70px)';
-  }, 350);
-  setTimeout(typewrite, 900);
-});
-function typewrite(){
-  let i = 0;
-  typewriterEl.textContent = '';
-  const interval = setInterval(()=>{
-    typewriterEl.textContent += fullMessage[i];
-    i++;
-    if (i >= fullMessage.length){
-      clearInterval(interval);
-      letterExtra.classList.remove('hidden');
-      const player = document.getElementById('music-player');
-      player.classList.remove('opacity-0','pointer-events-none');
+
+/* ==========================================================================
+   4. AMBIENT BACKGROUND (shared candlelit-paper ambiance)
+   ========================================================================== */
+function makeParticles(count) {
+  return Array.from({ length: count }, (_, i) => {
+    const seed = (i * 137.51) % 100
+    return {
+      left: seed,
+      size: 2 + (i * 37) % 5,
+      duration: 14 + (i * 11) % 10,
+      delay: -((i * 3.3) % 12),
+      drift: (i % 2 === 0 ? 1 : -1) * (10 + (i % 4) * 6),
+      opacity: 0.15 + (i * 13 % 30) / 100,
     }
-  }, 22);
+  })
 }
-document.getElementById('mini-play').addEventListener('click', playMini);
-function playMini(){
-  const bar = document.getElementById('mini-bar');
-  bar.style.transition = 'width 6s linear';
-  bar.style.width = '100%';
+
+function createAmbientBackground({ darkness = 0, particleCount = 16 } = {}) {
+  const wrap = el(`<div class="ambient-bg${!PAGE_VISIBLE ? ' paused' : ''}" aria-hidden="true">
+    <div class="ambient-glow"></div>
+    <div class="bg-paper-grain" style="position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;"></div>
+    <div class="ambient-darken" style="opacity:${darkness}"></div>
+  </div>`)
+  const darken = wrap.querySelector('.ambient-darken')
+  if (!REDUCED_MOTION) {
+    const particles = makeParticles(particleCount)
+    particles.forEach((p) => {
+      const mote = el(`<span class="dust-mote"></span>`)
+      mote.style.left = p.left + '%'
+      mote.style.width = p.size + 'px'
+      mote.style.height = p.size + 'px'
+      mote.style.setProperty('--mote-opacity', p.opacity)
+      mote.style.setProperty('--mote-drift', p.drift + 'px')
+      mote.style.animationDuration = p.duration + 's'
+      mote.style.animationDelay = p.delay + 's'
+      darken.before(mote)
+    })
+  }
+  return { node: wrap, setDarkness: (v) => { darken.style.opacity = v } }
 }
-document.getElementById('player-toggle').addEventListener('click', function(){
-  this.textContent = this.textContent === '▶' ? '❚❚' : '▶';
-});
-/* ============================= RECIPIENT DEMO ============================= */
-function openRecipientDemo(){
-  closeModal('success-modal');
-  document.getElementById('recipient-view').classList.remove('opacity-0','pointer-events-none');
-  document.getElementById('rv-stage-1').classList.remove('hidden');
-  document.getElementById('rv-stage-2').classList.add('hidden');
+
+function envelopeMarkup(config) {
+  const initials = `${config.senderName?.[0] ?? ''}${config.recipientName?.[0] ?? ''}`.toUpperCase()
+  return `
+    <div class="envelope-body"></div>
+    <div class="envelope-pockets"></div>
+    <div class="envelope-flap"></div>
+    <span class="envelope-initials">${escapeHtml(initials)}</span>
+    <div class="envelope-seal-wrap">
+      <div class="envelope-seal">${icon('heart')}</div>
+    </div>
+    <p class="envelope-recipient">To: ${escapeHtml(config.recipientName)}</p>`
 }
-function closeRecipientDemo(){
-  document.getElementById('recipient-view').classList.add('opacity-0','pointer-events-none');
+
+/* ==========================================================================
+   5. ENVELOPE OPENING SEQUENCE
+   -------------------------------------------------------------------------
+   Landing (sealed envelope, tap to open) -> cinematic opening (seal cracks,
+   flap opens, letter slides out and expands) -> the letter scene.
+   ========================================================================== */
+function renderLanding(root, config) {
+  applyTheme(config.theme)
+  const ambient = createAmbientBackground({ particleCount: 14 })
+  const wrap = el(`<div class="landing-wrap page-bg"></div>`)
+  wrap.appendChild(ambient.node)
+
+  const inner = el(`
+    <div class="landing-inner">
+      <p class="eyebrow">${escapeHtml(config.openingEyebrow ?? 'For You, Always.')}</p>
+      <button type="button" class="envelope-btn focus-ring" aria-label="Open your letter from ${escapeHtml(config.senderName)}">
+        <div class="envelope-art">${envelopeMarkup(config)}</div>
+      </button>
+      <button type="button" class="btn-primary focus-ring">Open Your Letter</button>
+      <p class="landing-hint">${escapeHtml(resolveTemplate(config.openingHint ?? 'Take your time.', config))} <span aria-hidden="true">❤</span></p>
+      <p class="landing-title">${escapeHtml(config.openingTitle ?? 'Someone left you a letter.')}</p>
+    </div>`)
+  wrap.appendChild(inner)
+
+  const openIt = () => {
+    startBackgroundMusic(config)
+    goToScene('opening')
+  }
+  wrap.querySelector('.envelope-btn').addEventListener('click', openIt)
+  wrap.querySelector('.btn-primary').addEventListener('click', openIt)
+
+  root.appendChild(wrap)
 }
-function recipientOpen(){
-  document.getElementById('rv-stage-1').classList.add('hidden');
-  document.getElementById('rv-stage-2').classList.remove('hidden');
-  const msgEl = document.getElementById('rv-message');
-  const msg = "Every good story deserves a place to live. Here's a small piece of ours.";
-  let i=0; msgEl.textContent='';
-  const iv = setInterval(()=>{ msgEl.textContent += msg[i]; i++; if(i>=msg.length) clearInterval(iv); }, 28);
+
+function renderOpening(root, config) {
+  applyTheme(config.theme)
+  const wrap = el(`<div class="opening-wrap page-bg"></div>`)
+  const ambient = createAmbientBackground({ particleCount: 10 })
+  wrap.appendChild(ambient.node)
+
+  const skipWrap = el(`<div class="skip-corner"><button type="button" class="skip-btn focus-ring">Skip Animation</button></div>`)
+  wrap.appendChild(skipWrap)
+
+  const stageArea = el(`
+    <div class="opening-stage-area">
+      <div class="opening-envelope">${envelopeMarkup(config)}</div>
+      <div class="opening-letter-card">
+        <p>Dear ${escapeHtml(config.recipientName)},</p>
+        <div class="rule"></div>
+      </div>
+    </div>`)
+  wrap.appendChild(stageArea)
+
+  const status = el(`<span class="sr-only" role="status" aria-live="polite">Opening your letter…</span>`)
+  wrap.appendChild(status)
+  root.appendChild(wrap)
+
+  let cancelled = false
+  const timers = []
+  const finish = () => { if (!cancelled) { cancelled = true; timers.forEach(clearTimeout); goToScene('story') } }
+
+  const setStage = (n) => {
+    wrap.setAttribute('data-stage', String(n))
+    ambient.setDarkness(Math.min(n / 2, 1) * 0.55)
+    if (n >= 6) { status.textContent = 'Letter opened.'; skipWrap.remove() }
+  }
+  setStage(0)
+
+  skipWrap.querySelector('.skip-btn').addEventListener('click', () => {
+    timers.forEach(clearTimeout)
+    setTimeout(finish, 250)
+  })
+
+  if (REDUCED_MOTION) {
+    timers.push(setTimeout(finish, 250))
+    return
+  }
+
+  const STAGE_DURATIONS_MS = [1000, 1000, 1000, 1000, 1000, 1000]
+  let elapsed = 0
+  STAGE_DURATIONS_MS.forEach((dur, i) => {
+    elapsed += dur
+    timers.push(setTimeout(() => setStage(i + 1), elapsed))
+  })
+  timers.push(setTimeout(finish, elapsed + 250))
 }
+
+/* ==========================================================================
+   6. LOVE LETTER & TYPEWRITER
+   ========================================================================== */
+function typeParagraphs(container, text, typingConfig, opts) {
+  const { onProgress, onComplete } = opts
+  const paragraphs = text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+  const speed = typingConfig?.speed ?? 45
+  const startDelay = typingConfig?.delayBeforeTyping ?? 400
+  const pauseBetweenParagraphs = typingConfig?.pauseBetweenParagraphs ?? 1200
+  const cursorEnabled = typingConfig?.cursor !== false
+  const soundEnabled = Boolean(typingConfig?.sound)
+  const enabled = !REDUCED_MOTION && typingConfig?.enabled !== false
+
+  const srOnly = el(`<p class="sr-only"></p>`)
+  srOnly.textContent = text
+  container.appendChild(srOnly)
+  const body = el(`<div aria-hidden="true"></div>`)
+  container.appendChild(body)
+
+  let cancelled = false
+  let skip = false
+  const playTick = makeKeySoundPlayer(soundEnabled)
+
+  const renderParas = (paras, activeIdx, complete) => {
+    body.innerHTML = ''
+    paras.forEach((para, i) => {
+      const p = document.createElement('p')
+      p.textContent = para
+      if (i === paras.length - 1 && i === activeIdx && !complete && cursorEnabled) {
+        const cur = document.createElement('span')
+        cur.className = 'typewriter-cursor'
+        p.appendChild(cur)
+      }
+      body.appendChild(p)
+    })
+  }
+
+  const finishInstantly = () => {
+    renderParas(paragraphs, paragraphs.length, true)
+    onProgress?.()
+    onComplete?.()
+  }
+
+  if (!paragraphs.length) { onComplete?.(); return { skipToEnd() {} } }
+  if (!enabled) { finishInstantly(); return { skipToEnd() {} } }
+
+  const typeNext = (pIdx, cIdx) => {
+    if (cancelled) return
+    if (skip) { finishInstantly(); return }
+    if (pIdx >= paragraphs.length) { renderParas(paragraphs, paragraphs.length, true); onComplete?.(); return }
+    const para = paragraphs[pIdx]
+    if (cIdx >= para.length) {
+      renderParas(paragraphs.slice(0, pIdx + 1), pIdx + 1, false)
+      onProgress?.()
+      setTimeout(() => typeNext(pIdx + 1, 0), pauseBetweenParagraphs)
+      return
+    }
+    const complete = paragraphs.slice(0, pIdx)
+    complete.push(para.slice(0, cIdx + 1))
+    renderParas(complete, pIdx, false)
+    onProgress?.()
+    playTick()
+    const char = para[cIdx]
+    const jitter = speed * 0.5 * (Math.random() - 0.5)
+    const punctuationPause = /[,;:—]/.test(char) ? speed * 2.2 : /[.!?]/.test(char) ? speed * 4.5 : 0
+    const delay = Math.max(12, speed + jitter + punctuationPause)
+    setTimeout(() => typeNext(pIdx, cIdx + 1), delay)
+  }
+
+  setTimeout(() => { if (!cancelled && !skip) typeNext(0, 0) }, startDelay)
+
+  return {
+    skipToEnd() { skip = true; finishInstantly() },
+    cancel() { cancelled = true },
+  }
+}
+
+function makeKeySoundPlayer(enabled) {
+  let ctx = null
+  return function playTick() {
+    if (!enabled) return
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext
+      if (!AudioCtx) return
+      if (!ctx) ctx = new AudioCtx()
+      const now = ctx.currentTime
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'triangle'
+      const base = 900 + Math.random() * 220
+      osc.frequency.setValueAtTime(base, now)
+      osc.frequency.exponentialRampToValueAtTime(base * 0.6, now + 0.02)
+      gain.gain.setValueAtTime(0.0001, now)
+      gain.gain.exponentialRampToValueAtTime(0.035, now + 0.004)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045)
+      osc.connect(gain); gain.connect(ctx.destination)
+      osc.start(now); osc.stop(now + 0.05)
+    } catch (e) { /* audio can fail silently — never block typing */ }
+  }
+}
+
+function renderStory(root, config) {
+  applyTheme(config.theme)
+  const wrap = el(`<div class="letter-scene page-bg"></div>`)
+
+  const skipCorner = el(`<div class="skip-corner" style="position:fixed;"><button type="button" class="skip-btn focus-ring">Skip Animation</button></div>`)
+  wrap.appendChild(skipCorner)
+
+  const paper = el(`
+    <div class="letter-paper">
+      <p class="letter-greeting">Dear ${escapeHtml(config.recipientName)},</p>
+      <div class="letter-body"></div>
+      <div class="letter-closing-wrap">
+        <p class="letter-closing-line">${escapeHtml(config.closingLine ?? 'Always yours,')}</p>
+        <p class="letter-signature">${escapeHtml(config.signature)}</p>
+        <button type="button" class="btn-primary continue-btn focus-ring">Continue</button>
+      </div>
+      <div class="letter-end-marker"></div>
+    </div>`)
+  wrap.appendChild(paper)
+
+  const keepReading = el(`<button type="button" class="keep-reading focus-ring" aria-hidden="true" tabindex="-1">Keep reading ${icon('chevronDown')}</button>`)
+  wrap.appendChild(keepReading)
+
+  const restWrap = el(`<div class="rest-wrap"></div>`)
+  wrap.appendChild(restWrap)
+
+  root.appendChild(wrap)
+
+  const bodyEl = paper.querySelector('.letter-body')
+  const endMarker = paper.querySelector('.letter-end-marker')
+  const closingWrap = paper.querySelector('.letter-closing-wrap')
+
+  let userScrolled = false
+  let scrollTimeout
+  const onScrollIntent = () => {
+    userScrolled = true
+    clearTimeout(scrollTimeout)
+    scrollTimeout = setTimeout(() => { userScrolled = false }, 4000)
+  }
+  window.addEventListener('wheel', onScrollIntent, { passive: true })
+  window.addEventListener('touchmove', onScrollIntent, { passive: true })
+
+  let isComplete = false
+  const message = resolveTemplate(config.message, config)
+
+  const typer = typeParagraphs(bodyEl, message, config.typing, {
+    onProgress: () => { if (!userScrolled) endMarker.scrollIntoView({ behavior: 'smooth', block: 'end' }) },
+    onComplete: () => {
+      isComplete = true
+      closingWrap.classList.add('is-shown')
+      keepReading.classList.add('is-hidden')
+      skipCorner.remove()
+    },
+  })
+
+  skipCorner.querySelector('.skip-btn').addEventListener('click', () => typer.skipToEnd?.())
+  keepReading.addEventListener('click', () => endMarker.scrollIntoView({ behavior: 'smooth', block: 'end' }))
+
+  paper.querySelector('.continue-btn').addEventListener('click', () => {
+    STATE.letterFinished = true
+    buildRestOfPage(restWrap, config)
+    requestAnimationFrame(() => {
+      restWrap.classList.add('is-shown')
+      restWrap.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  })
+
+  wrap.__cleanup = () => {
+    window.removeEventListener('wheel', onScrollIntent)
+    window.removeEventListener('touchmove', onScrollIntent)
+    typer.cancel?.()
+  }
+}
+
+function buildRestOfPage(restWrap, config) {
+  restWrap.innerHTML = ''
+  restWrap.appendChild(buildMemoryGallery(config))
+  restWrap.appendChild(buildTimeline(config))
+  restWrap.appendChild(buildVoiceMessage(config))
+  const cta = el(`
+    <div class="one-more-thing">
+      <button type="button" class="btn-primary focus-ring" style="display:inline-flex;align-items:center;gap:.5rem;">
+        One more thing ${icon('arrowDown')}
+      </button>
+    </div>`)
+  cta.querySelector('button').addEventListener('click', () => goToScene('final'))
+  restWrap.appendChild(cta)
+}
+
+/* ==========================================================================
+   7. MEMORY GALLERY
+   ========================================================================== */
+const ROTATIONS = [-3, 2, -1.5, 3, -2.5, 1.5]
+
+function buildMemoryGallery(config) {
+  const memories = config.memories || []
+  if (!memories.length) return document.createDocumentFragment()
+
+  const section = el(`
+    <section class="gallery-section" aria-label="Photo memories">
+      <h2 class="section-heading">${escapeHtml(config.memoriesHeading ?? 'A Few Moments I Never Want to Forget')}</h2>
+      <div class="gallery-track no-scrollbar"></div>
+    </section>`)
+  const track = section.querySelector('.gallery-track')
+
+  const photoMarkup = (item) => item.image
+    ? `<img class="polaroid-photo" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.alt ?? item.caption ?? '')}" loading="lazy" decoding="async" />`
+    : `<div class="polaroid-placeholder">${icon('imageOff')}</div>`
+
+  memories.forEach((item, i) => {
+    const card = el(`
+      <button type="button" class="polaroid focus-ring" style="rotate:${ROTATIONS[i % ROTATIONS.length]}deg; transition-delay:${(i % 4) * 0.08}s" aria-label="${item.caption ? 'Open photo: ' + escapeHtml(item.caption) : 'Open photo'}">
+        ${photoMarkup(item)}
+        ${item.caption ? `<p class="polaroid-caption">${escapeHtml(item.caption)}</p>` : ''}
+      </button>`)
+    card.addEventListener('click', () => openLightbox(memories, i))
+    track.appendChild(card)
+  })
+
+  observeInView(track.querySelectorAll('.polaroid'))
+  return section
+}
+
+let lightboxEl = null
+function openLightbox(memories, index) {
+  if (!lightboxEl) {
+    lightboxEl = el(`
+      <div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button type="button" class="lightbox-close focus-ring" aria-label="Close photo viewer">${icon('x')}</button>
+        <div class="lightbox-card"></div>
+      </div>`)
+    document.body.appendChild(lightboxEl)
+    lightboxEl.addEventListener('click', (e) => { if (e.target === lightboxEl) closeLightbox() })
+    lightboxEl.querySelector('.lightbox-close').addEventListener('click', closeLightbox)
+  }
+  let i = index
+  const card = lightboxEl.querySelector('.lightbox-card')
+  const render = () => {
+    const item = memories[i]
+    card.innerHTML = (item.image
+      ? `<img class="polaroid-photo" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.alt ?? item.caption ?? '')}" />`
+      : `<div class="polaroid-placeholder">${icon('imageOff')}</div>`)
+      + (item.caption ? `<p class="lightbox-caption">${escapeHtml(item.caption)}</p>` : '')
+  }
+  render()
+  lightboxEl.classList.add('is-open')
+
+  const onKey = (e) => {
+    if (e.key === 'Escape') closeLightbox()
+    if (e.key === 'ArrowRight') { i = (i + 1) % memories.length; render() }
+    if (e.key === 'ArrowLeft') { i = (i - 1 + memories.length) % memories.length; render() }
+  }
+  window.addEventListener('keydown', onKey)
+  lightboxEl.__onKey = onKey
+}
+function closeLightbox() {
+  if (!lightboxEl) return
+  lightboxEl.classList.remove('is-open')
+  if (lightboxEl.__onKey) window.removeEventListener('keydown', lightboxEl.__onKey)
+}
+
+/** IntersectionObserver-driven fade/slide-up, standing in for whileInView. */
+function observeInView(nodeList) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view')
+        io.unobserve(entry.target)
+      }
+    })
+  }, { rootMargin: '-60px', threshold: 0.01 })
+  nodeList.forEach((n) => io.observe(n))
+}
+
+/* ==========================================================================
+   8. TIMELINE
+   ========================================================================== */
+function buildTimeline(config) {
+  const timeline = config.timeline || []
+  if (!timeline.length) return document.createDocumentFragment()
+
+  const section = el(`
+    <section class="timeline-section" aria-label="Our story timeline">
+      <h2 class="section-heading">${escapeHtml(config.timelineHeading ?? 'Our Story So Far')}</h2>
+      <ol class="timeline-list">
+        <div class="timeline-line" aria-hidden="true"></div>
+      </ol>
+    </section>`)
+  const list = section.querySelector('.timeline-list')
+
+  timeline.forEach((entry, i) => {
+    const alignRight = i % 2 === 1
+    const li = el(`
+      <li class="timeline-item ${alignRight ? 'align-right' : 'align-left'}">
+        <span class="timeline-dot" aria-hidden="true"></span>
+        <p class="timeline-date">${escapeHtml(entry.date ?? '')}</p>
+        <p class="timeline-title">${escapeHtml(entry.title ?? '')}</p>
+        ${entry.image ? `<img class="timeline-photo" src="${escapeHtml(entry.image)}" alt="" loading="lazy" decoding="async" />` : ''}
+        ${entry.message ? `<p class="timeline-message">${escapeHtml(entry.message)}</p>` : ''}
+        ${entry.location ? `<p class="timeline-location">${icon('mapPin')} ${escapeHtml(entry.location)}</p>` : ''}
+      </li>`)
+    list.appendChild(li)
+  })
+
+  observeInView(list.querySelectorAll('.timeline-item'))
+  return section
+}
+
+/* ==========================================================================
+   9. MUSIC PLAYER (persistent across story + final scenes; never autoplays)
+   ========================================================================== */
+let musicPlayerNode = null
+let musicAudio = null
+let youtubePlayer = null
+let youtubeApiPromise = null
+let youtubePlayerReady = null
+let youtubePendingPlay = false
+
+function loadYouTubeApi() {
+  if (window.YT?.Player) return Promise.resolve(window.YT)
+  if (youtubeApiPromise) return youtubeApiPromise
+
+  youtubeApiPromise = new Promise((resolve) => {
+    const previousReady = window.onYouTubeIframeAPIReady
+    window.onYouTubeIframeAPIReady = () => {
+      previousReady?.()
+      resolve(window.YT)
+    }
+    const script = document.createElement('script')
+    script.src = 'https://www.youtube.com/iframe_api'
+    script.async = true
+    document.head.appendChild(script)
+  })
+  return youtubeApiPromise
+}
+
+function extractYouTubeId(url) {
+  if (!url) return ''
+  try {
+    const u = new URL(url)
+    if (u.hostname.includes('youtu.be')) return u.pathname.slice(1).split('/')[0]
+    return u.searchParams.get('v') || u.pathname.match(/\/embed\/([^/?]+)/)?.[1] || ''
+  } catch {
+    return ''
+  }
+}
+
+// Browsers (Chrome especially) block starting playback WITH SOUND unless
+// there's a fresh, direct user gesture — and by the time the YouTube
+// iframe API has loaded and the player is actually ready, the click that
+// triggered it is usually long gone, so a naive unMute()+playVideo() call
+// here gets silently blocked (this was the actual cause of "no sound").
+//
+// The reliable, standard workaround: ask YouTube to autoplay MUTED (that
+// is always allowed, gesture or not), then call unMute() once the video
+// is already playing. Browsers treat "unmute a video that's already
+// playing" as a separate, always-permitted action — it doesn't need a
+// fresh gesture the way starting playback with sound does.
+function unmuteYoutubePlayer(player) {
+  try {
+    player.unMute()
+    player.setVolume(80)
+  } catch {}
+}
+
+// Called from the envelope tap. A real audio file is always preferred —
+// it's simpler and more reliable (a synchronous .play() inside a click
+// handler is always allowed, no muted-autoplay trick needed) — and only
+// one source ever plays at a time, so the two never fight over the same
+// play button.
+function startBackgroundMusic(config) {
+  const music = config.music
+  if (!music?.enabled) return
+  if (music.audioUrl) {
+    ensureMusicPlayer(config)
+    musicAudio?.play().catch(() => {})
+  } else if (music.youtubeUrl) {
+    startYoutubeMusic(config)
+  }
+}
+
+function startYoutubeMusic(config) {
+  const youtubeUrl = config.music?.youtubeUrl
+  const videoId = extractYouTubeId(youtubeUrl)
+  if (!config.music?.enabled || !videoId) return
+
+  youtubePendingPlay = true
+
+  const ensureHost = () => {
+    let host = document.getElementById('youtube-background-player')
+    if (!host) {
+      host = document.createElement('div')
+      host.id = 'youtube-background-player'
+      host.setAttribute('aria-hidden', 'true')
+      host.style.cssText = 'position:fixed;width:2px;height:2px;left:-10px;top:-10px;opacity:0.01;pointer-events:none;z-index:-1;'
+      document.body.appendChild(host)
+    }
+    return host
+  }
+
+  loadYouTubeApi().then((YT) => {
+    const playerHost = ensureHost()
+
+    if (youtubePlayer) {
+      try {
+        youtubePlayer.playVideo()
+        unmuteYoutubePlayer(youtubePlayer)
+      } catch {}
+      return
+    }
+
+    // `origin` must exactly match the page's real origin or YouTube's
+    // postMessage handshake can fail silently. A file:// page has no real
+    // origin (it's "null"), so passing window.location.origin there
+    // actively breaks the player instead of helping — only send it when
+    // the page is actually served over http/https.
+    const playerVars = {
+      autoplay: 1,
+      mute: 1, // start muted — this is what makes autoplay reliable
+      controls: 0,
+      loop: 1,
+      playlist: videoId,
+      playsinline: 1,
+      rel: 0,
+      modestbranding: 1,
+    }
+    if (typeof location !== 'undefined' && location.protocol !== 'file:') {
+      playerVars.origin = location.origin
+    }
+
+    youtubePlayerReady = new Promise((resolve) => {
+      youtubePlayer = new YT.Player(playerHost, {
+        width: '2',
+        height: '2',
+        videoId,
+        playerVars,
+        events: {
+          onReady: (event) => {
+            event.target.setVolume(80)
+            if (youtubePendingPlay) {
+              try {
+                event.target.playVideo()
+                // Give the muted autoplay a beat to actually start, then
+                // unmute — this order is what makes it reliable.
+                setTimeout(() => unmuteYoutubePlayer(event.target), 250)
+              } catch {}
+            }
+            resolve(event.target)
+          },
+          onStateChange: (event) => {
+            if (event.data === YT.PlayerState.PLAYING) {
+              unmuteYoutubePlayer(event.target)
+            }
+            if (event.data === YT.PlayerState.ENDED) {
+              event.target.playVideo()
+            }
+          },
+        },
+      })
+    })
+  }).catch(() => {})
+}
+
+// Safety net: if the very first unmute attempt still gets blocked (some
+// mobile browsers are stricter than desktop Chrome about this), any next
+// real tap/click/keypress anywhere on the page will retry it once.
+function armYoutubeUnmuteFallback() {
+  const tryUnmute = () => {
+    if (youtubePlayer && youtubePendingPlay) {
+      try {
+        if (typeof youtubePlayer.isMuted === 'function' && youtubePlayer.isMuted()) {
+          unmuteYoutubePlayer(youtubePlayer)
+        }
+      } catch {}
+    }
+  }
+  ;['pointerdown', 'keydown', 'touchstart'].forEach((evt) =>
+    window.addEventListener(evt, tryUnmute, { passive: true }),
+  )
+}
+
+function stopYoutubeMusic() {
+  if (youtubePlayer?.pauseVideo) youtubePlayer.pauseVideo()
+}
+
+function resetYoutubeMusic() {
+  if (youtubePlayer?.stopVideo) youtubePlayer.stopVideo()
+}
+
+function ensureMusicPlayer(config) {
+  const music = config.music
+  if (!music?.enabled) return null
+  if (music.youtubeUrl && !music.audioUrl && !document.getElementById('youtube-background-player')) {
+    const host = document.createElement('div')
+    host.id = 'youtube-background-player'
+    host.setAttribute('aria-hidden', 'true')
+    host.style.cssText = 'position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none;'
+    document.body.appendChild(host)
+  }
+  if (musicPlayerNode) return musicPlayerNode
+
+  const RING_R = 18
+  const CIRC = 2 * Math.PI * RING_R
+  musicPlayerNode = el(`
+    <div class="music-player">
+      <div class="music-pill">
+        <button type="button" class="music-toggle focus-ring" aria-label="Play background music" ${music.audioUrl || music.youtubeUrl ? '' : 'disabled'}>
+          <svg class="ring" viewBox="0 0 40 40" aria-hidden="true">
+            <circle class="ring-bg" cx="20" cy="20" r="${RING_R}" fill="none" stroke-width="2"/>
+            <circle class="ring-fg" cx="20" cy="20" r="${RING_R}" fill="none" stroke-width="2" stroke-dasharray="${CIRC}" stroke-dashoffset="${CIRC}" stroke-linecap="round"/>
+          </svg>
+          <span class="play-icon">${icon('play')}</span>
+        </button>
+        <button type="button" class="music-label focus-ring" aria-expanded="false">
+          ${icon('music2')}<span>${escapeHtml(music.title ?? 'Our Song')}</span>
+        </button>
+        <div class="music-volume">
+          <span class="vol-icon">${icon('volume2')}</span>
+          <input type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Music volume" />
+        </div>
+      </div>
+      ${music.audioUrl ? `<audio src="${escapeHtml(music.audioUrl)}" loop preload="none" aria-label="${escapeHtml(music.title ?? 'Background music')}"></audio>` : ''}
+    </div>`)
+  document.body.appendChild(musicPlayerNode)
+
+  const toggleBtn = musicPlayerNode.querySelector('.music-toggle')
+  const playIcon = musicPlayerNode.querySelector('.play-icon')
+  const ringFg = musicPlayerNode.querySelector('.ring-fg')
+  const labelBtn = musicPlayerNode.querySelector('.music-label')
+  const volumeWrap = musicPlayerNode.querySelector('.music-volume')
+  const volIcon = musicPlayerNode.querySelector('.vol-icon')
+  const volInput = musicPlayerNode.querySelector('input[type="range"]')
+  musicAudio = musicPlayerNode.querySelector('audio')
+
+  if (music.youtubeUrl && !music.audioUrl) {
+    toggleBtn.addEventListener('click', () => {
+      if (youtubePlayer) {
+        try {
+          const state = youtubePlayer.getPlayerState()
+          if (state === 1) youtubePlayer.pauseVideo()
+          else { youtubePlayer.unMute(); youtubePlayer.setVolume(Number(volInput.value) * 100); youtubePlayer.playVideo() }
+        } catch {}
+      } else {
+        startYoutubeMusic(config)
+      }
+    })
+  }
+
+  if (musicAudio) {
+    musicAudio.volume = 0.8
+    const updateRing = () => {
+      const progress = musicAudio.duration ? musicAudio.currentTime / musicAudio.duration : 0
+      ringFg.style.strokeDashoffset = String(CIRC * (1 - progress))
+    }
+    musicAudio.addEventListener('timeupdate', updateRing)
+    musicAudio.addEventListener('play', () => { playIcon.innerHTML = ICONS.pause; toggleBtn.setAttribute('aria-label', 'Pause background music') })
+    musicAudio.addEventListener('pause', () => { playIcon.innerHTML = ICONS.play; toggleBtn.setAttribute('aria-label', 'Play background music') })
+    toggleBtn.addEventListener('click', () => { musicAudio.paused ? musicAudio.play().catch(() => {}) : musicAudio.pause() })
+  }
+
+  labelBtn.addEventListener('click', () => {
+    const isOpen = volumeWrap.classList.toggle('is-open')
+    labelBtn.setAttribute('aria-expanded', String(isOpen))
+  })
+  volInput.addEventListener('input', () => {
+    const v = Number(volInput.value)
+    if (musicAudio) musicAudio.volume = v
+    volIcon.innerHTML = v === 0 ? ICONS.volumeX : v < 0.5 ? ICONS.volume1 : ICONS.volume2
+  })
+
+  return musicPlayerNode
+}
+
+function setMusicPlayerVisible(visible) {
+  if (!musicPlayerNode) return
+  musicPlayerNode.classList.toggle('is-shown', visible)
+  // The pill is hidden during 'landing' and 'opening' for a cleaner look,
+  // but music that was already started by the envelope tap should keep
+  // playing straight through the opening cinematic into the letter — only
+  // truly stop it when we're back at the landing scene (replay).
+  if (!visible && STATE.scene !== 'opening') {
+    if (musicAudio) musicAudio.pause()
+    stopYoutubeMusic()
+  }
+}
+
+function resetMusicPlayer() {
+  if (musicAudio) { musicAudio.pause(); musicAudio.currentTime = 0 }
+  resetYoutubeMusic()
+}
+
+/* ==========================================================================
+   10. VOICE MESSAGE
+   ========================================================================== */
+const VOICE_BAR_COUNT = 34
+function waveformFor(seed) {
+  return Array.from({ length: VOICE_BAR_COUNT }, (_, i) => {
+    const n = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453
+    const r = n - Math.floor(n)
+    return 0.25 + r * 0.75
+  })
+}
+
+function buildVoiceMessage(config) {
+  const voice = config.voiceMessage
+  if (!voice?.enabled) return document.createDocumentFragment()
+
+  const bars = waveformFor(7)
+  const section = el(`
+    <section class="voice-section" aria-label="Voice message">
+      <h2 class="section-heading">If You Could Hear Me Say This...</h2>
+      <div class="voice-card">
+        <p class="voice-label">${escapeHtml(voice.label ?? 'A little something from me')}</p>
+        <div class="voice-row">
+          <button type="button" class="voice-play focus-ring" ${voice.audioUrl ? '' : 'disabled'} aria-label="Play voice message">${icon('play')}</button>
+          <div class="voice-bars" aria-hidden="true"></div>
+        </div>
+        <div class="voice-meta">
+          <span>${escapeHtml(config.senderName)}</span>
+          <span class="voice-duration">${voice.audioUrl ? '--:--' : 'No recording added'}</span>
+        </div>
+      </div>
+      ${voice.audioUrl ? `<audio src="${escapeHtml(voice.audioUrl)}" preload="metadata" aria-label="Voice message from ${escapeHtml(config.senderName)}"></audio>` : ''}
+    </section>`)
+
+  const barsWrap = section.querySelector('.voice-bars')
+  bars.forEach((h) => {
+    const bar = el(`<span class="voice-bar"></span>`)
+    bar.style.height = (h * 100) + '%'
+    bar.style.setProperty('--bar-scale', String(0.6 + h * 0.4))
+    bar.style.animationDuration = (0.6 + h) + 's'
+    barsWrap.appendChild(bar)
+  })
+
+  const playBtn = section.querySelector('.voice-play')
+  const durationEl = section.querySelector('.voice-duration')
+  const audio = section.querySelector('audio')
+
+  if (audio) {
+    const setActiveBars = () => {
+      const progress = audio.duration ? audio.currentTime / audio.duration : 0
+      const activeCount = Math.round(progress * VOICE_BAR_COUNT)
+      barsWrap.querySelectorAll('.voice-bar').forEach((bar, i) => bar.classList.toggle('is-active', i < activeCount))
+    }
+    audio.addEventListener('timeupdate', setActiveBars)
+    audio.addEventListener('loadedmetadata', () => { durationEl.textContent = formatTime(audio.duration) })
+    const setPlaying = (playing) => {
+      playBtn.innerHTML = playing ? ICONS.pause : ICONS.play
+      playBtn.setAttribute('aria-label', playing ? 'Pause voice message' : 'Play voice message')
+      barsWrap.querySelectorAll('.voice-bar').forEach((bar) => bar.classList.toggle('is-playing', playing && !REDUCED_MOTION))
+    }
+    audio.addEventListener('play', () => setPlaying(true))
+    audio.addEventListener('pause', () => setPlaying(false))
+    audio.addEventListener('ended', () => setPlaying(false))
+    playBtn.addEventListener('click', () => { audio.paused ? audio.play().catch(() => {}) : audio.pause() })
+  }
+
+  return section
+}
+
+/* ==========================================================================
+   11. SECRET MESSAGE
+   ========================================================================== */
+function buildSecretMessage(config) {
+  const secret = config.secretMessage
+  if (!secret?.enabled) return document.createDocumentFragment()
+
+  const wrap = el(`
+    <div class="secret-wrap">
+      <div class="secret-teaser-wrap">
+        <p class="secret-teaser">${escapeHtml(secret.teaser ?? "P.S. There's something else...")}</p>
+        <button type="button" class="secret-btn focus-ring">${icon('mail')} Open the Secret</button>
+      </div>
+      <p class="secret-message">${escapeHtml(secret.message ?? '')}</p>
+    </div>`)
+
+  const teaserWrap = wrap.querySelector('.secret-teaser-wrap')
+  const messageEl = wrap.querySelector('.secret-message')
+  wrap.querySelector('.secret-btn').addEventListener('click', () => {
+    teaserWrap.style.display = 'none'
+    messageEl.classList.add('is-shown')
+  })
+  return wrap
+}
+
+/* ==========================================================================
+   12. FINAL REVEAL & REPLAY
+   ========================================================================== */
+function renderFinal(root, config) {
+  const wrap = el(`<div class="final-scene"></div>`)
+  const ambient = createAmbientBackground({ darkness: 0.15, particleCount: 12 })
+  wrap.appendChild(ambient.node)
+
+  const skipWrap = el(`<div class="skip-corner"><button type="button" class="skip-btn focus-ring">Skip Animation</button></div>`)
+  wrap.appendChild(skipWrap)
+
+  const stageArea = el(`
+    <div class="final-stage-area">
+      <p class="final-line">And one last thing...</p>
+      <h2 class="final-big">I love you.</h2>
+      <div class="final-sub-wrap">
+        <h2 class="final-heading-2">I love you.</h2>
+        <p class="final-sub-text">More than this little letter could ever explain.</p>
+      </div>
+    </div>`)
+  wrap.appendChild(stageArea)
+
+  const rest = el(`<div class="final-rest"></div>`)
+  const signature = buildSignatureBlock(config)
+  if (config.finalPhoto) {
+    rest.appendChild(el(`<img class="final-photo" src="${escapeHtml(config.finalPhoto)}" alt="" loading="lazy" />`))
+  }
+  rest.appendChild(signature.node)
+  rest.appendChild(buildSecretMessage(config))
+  const actions = el(`
+    <div class="final-actions">
+      <button type="button" class="btn-light focus-ring">${icon('rotateCcw')} Read It Again</button>
+      <button type="button" class="btn-secondary focus-ring">Leave a Message</button>
+    </div>`)
+  rest.appendChild(actions)
+  wrap.appendChild(rest)
+
+  root.appendChild(wrap)
+
+  const lineEl = stageArea.querySelector('.final-line')
+  const bigEl = stageArea.querySelector('.final-big')
+  const subWrap = stageArea.querySelector('.final-sub-wrap')
+
+  const showRest = () => {
+    rest.classList.add('is-shown')
+    signature.reveal()
+    skipWrap.remove()
+  }
+
+  if (REDUCED_MOTION) {
+    showRest()
+  } else {
+    lineEl.classList.add('is-shown')
+    const t1 = setTimeout(() => { lineEl.classList.remove('is-shown'); bigEl.classList.add('is-shown') }, 1800)
+    const t2 = setTimeout(() => { bigEl.classList.remove('is-shown'); subWrap.classList.add('is-shown') }, 3600)
+    const t3 = setTimeout(showRest, 4700)
+    skipWrap.querySelector('.skip-btn').addEventListener('click', () => {
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3)
+      lineEl.classList.remove('is-shown'); bigEl.classList.remove('is-shown'); subWrap.classList.add('is-shown')
+      showRest()
+    })
+  }
+
+  actions.querySelector('.btn-light').addEventListener('click', () => replayExperience())
+  actions.querySelector('.btn-secondary').addEventListener('click', () => openLeaveMessageModal())
+}
+
+function buildSignatureBlock(config) {
+  const node = el(`
+    <div class="signature-wrap">
+      ${config.closingLine ? `<p class="signature-closing">${escapeHtml(config.closingLine)}</p>` : ''}
+      <p class="signature-script">${escapeHtml(config.signature)}</p>
+      ${config.date ? `<p class="signature-date">${escapeHtml(config.date)}</p>` : ''}
+    </div>`)
+  return {
+    node,
+    reveal() {
+      if (REDUCED_MOTION) {
+        node.querySelectorAll('.signature-script, .signature-date').forEach((n) => n.classList.add('is-shown'))
+        return
+      }
+      requestAnimationFrame(() => {
+        node.querySelectorAll('.signature-script, .signature-date').forEach((n) => n.classList.add('is-shown'))
+      })
+    },
+  }
+}
+
+let leaveMessageModal = null
+function openLeaveMessageModal() {
+  if (!leaveMessageModal) {
+    leaveMessageModal = el(`
+      <div class="modal-overlay" role="dialog" aria-modal="true" aria-label="Leave a message">
+        <div class="modal-card">
+          <div class="modal-head">
+            <p class="modal-title">Leave a message</p>
+            <button type="button" class="modal-close focus-ring" aria-label="Close">${icon('x')}</button>
+          </div>
+          <p class="modal-hint">Write something back — copy it and send it however you like.</p>
+          <textarea class="modal-textarea" rows="4" placeholder="Write your reply..."></textarea>
+          <button type="button" class="modal-copy focus-ring" disabled>Copy message</button>
+        </div>
+      </div>`)
+    document.body.appendChild(leaveMessageModal)
+    const textarea = leaveMessageModal.querySelector('.modal-textarea')
+    const copyBtn = leaveMessageModal.querySelector('.modal-copy')
+    textarea.addEventListener('input', () => { copyBtn.disabled = !textarea.value.trim() })
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(textarea.value).catch(() => {})
+      copyBtn.textContent = 'Copied ✓'
+    })
+    leaveMessageModal.addEventListener('click', (e) => { if (e.target === leaveMessageModal) closeLeaveMessageModal() })
+    leaveMessageModal.querySelector('.modal-close').addEventListener('click', closeLeaveMessageModal)
+  }
+  leaveMessageModal.classList.add('is-open')
+}
+function closeLeaveMessageModal() {
+  if (leaveMessageModal) leaveMessageModal.classList.remove('is-open')
+}
+
+function replayExperience() {
+  STATE.letterFinished = false
+  resetMusicPlayer()
+  goToScene('landing')
+  window.scrollTo({ top: 0, behavior: 'auto' })
+}
+
+/* ==========================================================================
+   13. SCENE MANAGER & INITIALIZATION
+   ========================================================================== */
+const appRoot = document.getElementById('app')
+let activeSceneEl = null
+
+function goToScene(scene) {
+  STATE.scene = scene
+  const config = LOVE_LETTER_CONFIG
+
+  const prev = activeSceneEl
+  const next = el(`<div class="scene"></div>`)
+  appRoot.appendChild(next)
+
+  if (scene === 'landing') renderLanding(next, config)
+  else if (scene === 'opening') renderOpening(next, config)
+  else if (scene === 'story') { ensureMusicPlayer(config); setMusicPlayerVisible(true); renderStory(next, config) }
+  else if (scene === 'final') { ensureMusicPlayer(config); setMusicPlayerVisible(true); renderFinal(next, config) }
+
+  if (scene === 'landing' || scene === 'opening') setMusicPlayerVisible(false)
+
+  // The story scene can be scrolled far down (through memories/timeline/
+  // voice message) before "One more thing" is pressed — without this, the
+  // final "I love you" scene would open still scrolled to that position,
+  // off-screen below the fold.
+  if (scene === 'final') {
+    window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? 'auto' : 'smooth' })
+  }
+
+  requestAnimationFrame(() => next.classList.add('is-visible'))
+  activeSceneEl = next
+
+  if (prev) {
+    const finishRemoval = () => { prev.__cleanup?.(); prev.remove() }
+    if (REDUCED_MOTION) finishRemoval()
+    else {
+      prev.classList.remove('is-visible')
+      prev.addEventListener('transitionend', finishRemoval, { once: true })
+      setTimeout(finishRemoval, 900) // safety net if transitionend doesn't fire
+    }
+  }
+}
+
+// FILE:// LIMITATIONS
+// --------------------------------------------------------------------------
+// Opening this file by double-clicking it (the file:// protocol) works for
+// everything as long as your photos/audio are either:
+//   (a) small base64 data URIs pasted directly into LOVE_LETTER_CONFIG, or
+//   (b) referenced with a relative path like "assets/images/photo1.jpg"
+//       AND the browser you're using allows local file:// pages to load
+//       neighboring files (Firefox generally does; Chrome sometimes blocks
+//       this for security and needs a local server instead).
+// If your photos or music don't appear when double-clicking the file,
+// serve the folder instead of opening it directly. From a PowerShell
+// prompt inside the "templates" folder:
+//     py -m http.server 8000
+// then visit http://localhost:8000/love-letter-template.html in your
+// browser. No installation is required beyond Python, which ships with
+// most Windows 10 machines (or is a quick, free install from
+// https://www.python.org/downloads/ — check "Add Python to PATH").
+
+function init() {
+  applyTheme(LOVE_LETTER_CONFIG.theme)
+  // Preload the YouTube API so the envelope click can start playback
+  // immediately — only needed when there's no real audio file (audioUrl
+  // always wins; see startBackgroundMusic()).
+  if (LOVE_LETTER_CONFIG.music?.enabled && LOVE_LETTER_CONFIG.music?.youtubeUrl && !LOVE_LETTER_CONFIG.music?.audioUrl) {
+    loadYouTubeApi()
+    armYoutubeUnmuteFallback()
+  }
+
+  goToScene('landing')
+}
+
+init()
 </script>
 </body>
 </html>
