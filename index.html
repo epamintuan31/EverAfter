@@ -52,19 +52,16 @@
 </style>
 </head>
 <body class="antialiased">
-
 <!-- ============================= NAVBAR ============================= -->
 <header id="navbar" class="fixed top-0 inset-x-0 z-40 transition-all duration-300">
   <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-20">
     <a href="#top" class="font-serif italic text-2xl tracking-wide">Ever After.</a>
-
     <nav class="hidden md:flex items-center gap-9 text-sm text-charcoal/80">
       <a href="#gifts" class="hover:text-charcoal transition">Gifts</a>
       <a href="#how" class="hover:text-charcoal transition">How It Works</a>
       <a href="#stories" class="hover:text-charcoal transition">Stories</a>
       <a href="#faq" class="hover:text-charcoal transition">FAQ</a>
     </nav>
-
     <div class="flex items-center gap-4">
       <button aria-label="Search" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-charcoal/5 transition">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -79,27 +76,22 @@
       </button>
     </div>
   </div>
-
   <!-- mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-cream/95 backdrop-blur border-t border-charcoal/10 px-6 py-5 flex flex-col gap-4 text-sm">
     <a href="#gifts">Gifts</a><a href="#how">How It Works</a><a href="#stories">Stories</a><a href="#faq">FAQ</a>
   </div>
 </header>
-
 <!-- ============================= HERO ============================= -->
 <section id="top" class="relative pt-40 pb-24 md:pt-48 md:pb-32 px-5 md:px-8 overflow-hidden">
   <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 items-center">
-
     <div>
       <p class="text-xs tracking-[0.3em] uppercase text-rose mb-6">Digital Gifts · Made With Feeling</p>
       <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-[1.05]">The Art of<br><em class="not-italic text-rose">Making</em> Memories.</h1>
       <p class="mt-6 text-lg text-muted max-w-md leading-relaxed">Turn your favorite moments into something they can open, explore, and keep forever.</p>
-
       <div class="mt-9 flex flex-wrap items-center gap-4">
         <button onclick="document.getElementById('gifts').scrollIntoView()" class="bg-charcoal text-cream px-7 py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Explore Gifts →</button>
         <button onclick="document.getElementById('how').scrollIntoView()" class="px-7 py-3.5 rounded-full text-sm border border-charcoal/20 hover:border-charcoal/50 transition">How It Works</button>
       </div>
-
       <div class="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
         <span>1,000+ memories created</span>
         <span class="flex items-center gap-1">★★★★★ 5.0 average</span>
@@ -107,20 +99,16 @@
         <span>Private &amp; shareable</span>
       </div>
     </div>
-
     <div class="relative h-[420px] md:h-[500px]">
       <div class="absolute inset-0 rounded-[2rem]" style="background:radial-gradient(circle at 60% 40%, #22314F1f, transparent 70%);"></div>
-
       <div class="absolute left-4 top-6 w-40 rotate-[-8deg] bg-white p-2.5 pb-6 rounded-sm shadow-xl float" style="--r:-8deg;">
         <div class="w-full h-32 rounded-sm bg-gradient-to-br from-blush to-surface"></div>
         <p class="font-serif italic text-xs text-center mt-2 text-muted">summer, 2023</p>
       </div>
-
       <div class="absolute right-6 top-0 w-36 rotate-[6deg] bg-white p-2.5 pb-5 rounded-sm shadow-xl float" style="--r:6deg; animation-delay:.6s;">
         <div class="w-full h-28 rounded-sm bg-gradient-to-br from-gold/40 to-surface"></div>
         <p class="font-serif italic text-xs text-center mt-2 text-muted">our song</p>
       </div>
-
       <div class="absolute left-10 bottom-8 right-10 bg-white/90 backdrop-blur rounded-2xl shadow-2xl p-6 border border-charcoal/5 float" style="animation-delay:.3s;">
         <p class="text-[10px] tracking-[0.25em] uppercase text-rose mb-2">Love Letter</p>
         <p class="font-serif text-lg leading-snug">"Some memories deserve their own little world..."</p>
@@ -129,14 +117,12 @@
           <span class="w-7 h-7 rounded-full bg-blush/50 flex items-center justify-center">→</span>
         </div>
       </div>
-
       <span class="absolute top-2 right-24 text-rose text-lg sparkle">✦</span>
       <span class="absolute bottom-24 left-2 text-gold text-sm sparkle" style="animation-delay:1s;">✦</span>
       <span class="absolute top-1/3 right-4 text-blush text-xl sparkle" style="animation-delay:1.6s;">✦</span>
     </div>
   </div>
 </section>
-
 <!-- ============================= CATALOG ============================= -->
 <section id="gifts" class="px-5 md:px-8 py-24 bg-surface/60">
   <div class="max-w-7xl mx-auto">
@@ -145,23 +131,19 @@
       <h2 class="font-serif text-4xl md:text-5xl">Find Something They'll Never Forget.</h2>
       <p class="mt-4 text-muted">Choose an experience, personalize the details, and turn a simple gift into a memory.</p>
     </div>
-
     <div id="filters" class="flex flex-wrap justify-center gap-2 mt-10 reveal">
       <!-- injected -->
     </div>
-
     <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
       <!-- injected -->
     </div>
   </div>
 </section>
-
 <!-- ============================= HOW IT WORKS ============================= -->
 <section id="how" class="px-5 md:px-8 py-24">
   <div class="max-w-6xl mx-auto text-center">
     <p class="text-xs tracking-[0.3em] uppercase text-rose mb-4 reveal">The Process</p>
     <h2 class="font-serif text-4xl md:text-5xl reveal">From Idea to "I Love You."</h2>
-
     <div class="grid md:grid-cols-3 gap-10 mt-16 text-left">
       <div class="reveal">
         <p class="font-serif text-6xl text-blush">01</p>
@@ -181,17 +163,14 @@
     </div>
   </div>
 </section>
-
 <!-- ============================= INTERACTIVE DEMO ============================= -->
 <section class="px-5 md:px-8 py-24 bg-charcoal text-cream">
   <div class="max-w-4xl mx-auto text-center">
     <p class="text-xs tracking-[0.3em] uppercase text-blush mb-4 reveal">Try It Yourself</p>
     <h2 class="font-serif text-4xl md:text-5xl reveal">Someone Left You A Letter.</h2>
     <p class="mt-4 text-cream/60 reveal">This is a small taste of what every gift feels like to open.</p>
-
     <div class="relative mt-14 flex justify-center" style="perspective:1400px;">
       <div id="envelope-wrap" class="relative w-full max-w-md">
-
         <!-- letter (behind envelope, slides up) -->
         <div id="letter" class="letter-slide absolute inset-x-4 top-6 bottom-0 bg-cream text-charcoal rounded-lg shadow-2xl p-7 flex flex-col opacity-0" style="transform:translateY(10px); z-index:1;">
           <p id="typewriter" class="font-serif text-xl leading-relaxed flex-1"></p>
@@ -204,7 +183,6 @@
             </div>
           </div>
         </div>
-
         <!-- envelope body -->
         <div id="envelope-body" class="relative bg-blush/90 rounded-lg shadow-xl h-56 overflow-hidden" style="z-index:2;">
           <div class="absolute inset-x-0 bottom-0 h-full" style="background:linear-gradient(160deg,#C7D0D9,#AAB6C2);"></div>
@@ -212,7 +190,6 @@
             <button id="open-envelope" class="relative z-10 bg-charcoal text-cream text-sm px-6 py-3 rounded-full hover:bg-charcoal/85 transition">Open Envelope</button>
           </div>
         </div>
-
         <!-- flap -->
         <div id="flap" class="envelope-flap absolute inset-x-0 top-0 h-32" style="z-index:3;">
           <svg viewBox="0 0 400 140" class="w-full h-full" preserveAspectRatio="none">
@@ -225,7 +202,6 @@
     <p class="mt-8 text-xs tracking-[0.15em] uppercase text-cream/40 reveal">"Some memories deserve their own little world."</p>
   </div>
 </section>
-
 <!-- ============================= STORY ============================= -->
 <section id="stories" class="px-5 md:px-8 py-24">
   <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-center">
@@ -249,7 +225,6 @@
     </div>
   </div>
 </section>
-
 <!-- ============================= TESTIMONIALS ============================= -->
 <section class="px-5 md:px-8 py-24 bg-surface/60">
   <div class="max-w-6xl mx-auto">
@@ -262,7 +237,6 @@
     </div>
   </div>
 </section>
-
 <!-- ============================= STATS ============================= -->
 <section class="px-5 md:px-8 py-20">
   <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-charcoal/10">
@@ -272,7 +246,6 @@
     <div class="reveal" style="transition-delay:.15s;"><p class="font-serif text-4xl md:text-5xl text-rose">Instant</p><p class="text-xs tracking-[0.15em] uppercase text-muted mt-2">Digital Delivery</p></div>
   </div>
 </section>
-
 <!-- ============================= FAQ ============================= -->
 <section id="faq" class="px-5 md:px-8 py-24">
   <div class="max-w-3xl mx-auto">
@@ -283,7 +256,6 @@
     <div id="faq-list" class="mt-12 divide-y divide-charcoal/10 reveal"></div>
   </div>
 </section>
-
 <!-- ============================= FOOTER ============================= -->
 <footer class="px-5 md:px-8 py-16 bg-charcoal text-cream/70">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
@@ -310,7 +282,6 @@
   </div>
   <p class="max-w-7xl mx-auto mt-12 text-xs text-cream/40">A concept storefront built for demonstration purposes.</p>
 </footer>
-
 <!-- ============================= CART DRAWER ============================= -->
 <div id="cart-overlay" class="fixed inset-0 bg-charcoal/40 z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-cream z-50 shadow-2xl translate-x-full transition-transform duration-400 flex flex-col">
@@ -330,42 +301,35 @@
     <button onclick="goToCheckout()" class="w-full bg-charcoal text-cream py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Checkout</button>
   </div>
 </aside>
-
 <!-- ============================= PRODUCT PREVIEW MODAL ============================= -->
 <div id="preview-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
   <div class="bg-cream rounded-2xl max-w-3xl w-full max-h-[88vh] overflow-y-auto shadow-2xl">
     <div id="preview-content" class="grid md:grid-cols-2"></div>
   </div>
 </div>
-
 <!-- ============================= CHECKOUT MODAL ============================= -->
 <div id="checkout-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
   <div class="bg-cream rounded-2xl max-w-lg w-full max-h-[88vh] overflow-y-auto shadow-2xl p-8">
     <h3 class="font-serif text-3xl mb-1">Checkout</h3>
     <p class="text-sm text-muted mb-6">This is a demo checkout — no real payment is processed.</p>
-
     <p class="text-xs tracking-[0.2em] uppercase text-rose mb-2">Recipient</p>
     <div class="grid grid-cols-2 gap-3 mb-6">
       <input id="co-recipient" placeholder="Their name" class="border border-charcoal/15 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-rose">
       <input id="co-email" placeholder="Your email" class="border border-charcoal/15 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:border-rose">
     </div>
-
     <p class="text-xs tracking-[0.2em] uppercase text-rose mb-2">Payment Method</p>
     <div id="payment-methods" class="grid grid-cols-2 gap-3 mb-6 text-sm"></div>
-
     <div class="flex justify-between font-serif text-xl mb-6"><span>Total</span><span id="checkout-total">$0.00</span></div>
     <button onclick="completeOrder()" class="w-full bg-charcoal text-cream py-3.5 rounded-full text-sm hover:bg-charcoal/85 transition">Complete Order</button>
     <button onclick="closeModal('checkout-modal')" class="w-full mt-2 py-2 text-sm text-muted">Back to cart</button>
   </div>
 </div>
-
 <!-- ============================= SUCCESS MODAL ============================= -->
 <div id="success-modal" class="fixed inset-0 z-50 bg-charcoal/50 flex items-center justify-center p-4 opacity-0 pointer-events-none fade-scale">
   <div class="bg-cream rounded-2xl max-w-md w-full shadow-2xl p-9 text-center">
     <div class="w-14 h-14 rounded-full bg-rose text-cream flex items-center justify-center mx-auto text-2xl">✓</div>
     <h3 class="font-serif text-3xl mt-5">Your gift is ready.</h3>
     <p class="text-sm text-muted mt-2">Share this link and passcode with them whenever you're ready.</p>
-
     <div class="bg-surface rounded-lg p-4 mt-6 text-left">
       <p class="text-xs text-muted">Private link</p>
       <div class="flex items-center justify-between mt-1">
@@ -375,14 +339,12 @@
       <p class="text-xs text-muted mt-3">Passcode</p>
       <p id="gift-passcode" class="text-sm font-medium mt-1">2907</p>
     </div>
-
     <div class="flex gap-3 mt-6">
       <button onclick="openRecipientDemo()" class="flex-1 bg-charcoal text-cream py-3 rounded-full text-sm hover:bg-charcoal/85">Open Gift</button>
       <button onclick="closeModal('success-modal')" class="flex-1 border border-charcoal/20 py-3 rounded-full text-sm hover:border-charcoal/50">Done</button>
     </div>
   </div>
 </div>
-
 <!-- ============================= RECIPIENT EXPERIENCE ============================= -->
 <div id="recipient-view" class="fixed inset-0 z-[60] bg-[#0D1117] text-cream opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto">
   <button onclick="closeRecipientDemo()" class="fixed top-5 right-5 z-10 w-9 h-9 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center">✕</button>
@@ -403,7 +365,6 @@
     </div>
   </div>
 </div>
-
 <!-- ============================= FLOATING MUSIC PLAYER ============================= -->
 <div id="music-player" class="fixed bottom-5 left-5 z-40 bg-cream shadow-xl rounded-full pl-2 pr-5 py-2 flex items-center gap-3 border border-charcoal/10 opacity-0 pointer-events-none transition-opacity duration-500">
   <div class="w-9 h-9 rounded-full bg-gradient-to-br from-rose to-gold"></div>
@@ -413,13 +374,13 @@
   </div>
   <button id="player-toggle" class="w-7 h-7 rounded-full bg-charcoal text-cream text-xs flex items-center justify-center">▶</button>
 </div>
-
 <script>
 /* ============================= DATA ============================= */
 const PRODUCTS = [
   { id:'love-letter', name:'Love Letter', category:'Letters', price:19.99, badge:'Bestseller',
     desc:'An interactive digital envelope with a cinematic typewriter animation.',
-    features:['Interactive envelope','Typewriter animation','Photo gallery','Music'] },
+    features:['Interactive envelope','Typewriter animation','Photo gallery','Music'],
+    livePreview:'index.html' },
   { id:'memory-box', name:'Memory Box', category:'Memories', price:29.99, badge:'Popular',
     desc:'A digital collection of photos, videos, messages, and memories in one place.',
     features:['Unlimited photos','Video support','Custom captions','Private link'] },
@@ -443,14 +404,12 @@ const PRODUCTS = [
     features:['Timeline builder','Milestone markers','Photo per chapter','Final chapter reveal'] },
 ];
 const CATEGORIES = ['All','Letters','Memories','Music','Experiences','Games','Invitations'];
-
 const TESTIMONIALS = [
   { name:'Sofia', gift:'Memory Box', quote:'She opened it at midnight and immediately called me. It felt like giving her a memory instead of just a gift.' },
   { name:'Marcus', gift:'Love Letter', quote:'The typewriter animation got me before I even finished reading. Worth every second of setup.' },
   { name:'Priya', gift:'Mixtape', quote:"He said it was the first gift that actually made him cry. That's the whole review." },
   { name:'Daniel', gift:'Our Story', quote:"We used it for our anniversary and now it's basically our relationship's official archive." },
 ];
-
 const FAQS = [
   { q:'How quickly will I receive my gift?', a:'Most self-edit gifts are available immediately after purchase.' },
   { q:'Does the recipient need an account?', a:'No. The recipient only needs the private link and, optionally, a passcode.' },
@@ -460,14 +419,11 @@ const FAQS = [
   { q:'Can I send the gift anonymously?', a:'Where appropriate, you can choose to send without revealing your name.' },
   { q:'Can I edit my gift later?', a:'Yes — every order includes a private manage link for edits.' },
 ];
-
 const PAYMENT_METHODS = ['QR Payment','E-Wallet','Card','Online Banking'];
-
 /* ============================= STATE ============================= */
 let cart = [];
 let activeFilter = 'All';
 let discountApplied = false;
-
 /* ============================= NAVBAR SCROLL ============================= */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', ()=>{
@@ -480,13 +436,11 @@ window.addEventListener('scroll', ()=>{
 document.getElementById('menu-btn').addEventListener('click', ()=>{
   document.getElementById('mobile-menu').classList.toggle('hidden');
 });
-
 /* ============================= REVEAL ON SCROLL ============================= */
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 }, { threshold:.15 });
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
 /* ============================= RENDER FILTERS ============================= */
 const filtersEl = document.getElementById('filters');
 CATEGORIES.forEach(cat=>{
@@ -504,7 +458,6 @@ CATEGORIES.forEach(cat=>{
 function filterClass(active){
   return `text-sm px-4 py-2 rounded-full border transition ${active ? 'bg-charcoal text-cream border-charcoal' : 'border-charcoal/20 text-charcoal/70 hover:border-charcoal/50'}`;
 }
-
 /* ============================= RENDER PRODUCTS ============================= */
 const gridEl = document.getElementById('product-grid');
 function renderProducts(){
@@ -519,6 +472,7 @@ function renderProducts(){
         <div class="w-full h-full bg-gradient-to-br ${gradientFor(p.category)} transition-transform duration-500 group-hover:scale-105"></div>
         ${p.badge ? `<span class="absolute top-3 left-3 bg-cream/90 text-charcoal text-[10px] tracking-wide uppercase px-2.5 py-1 rounded-full">${p.badge}</span>` : ''}
         <span class="absolute bottom-3 right-3 bg-charcoal/70 text-cream text-[10px] px-2 py-1 rounded-full">${p.category}</span>
+        ${p.livePreview ? `<span class="absolute bottom-3 left-3 bg-rose text-cream text-[10px] px-2 py-1 rounded-full">Live Demo</span>` : ''}
       </div>
       <div class="p-5">
         <h3 class="font-serif text-xl">${p.name}</h3>
@@ -540,7 +494,6 @@ function gradientFor(cat){
   return map[cat] || 'from-blush to-surface';
 }
 renderProducts();
-
 /* ============================= PREVIEW MODAL ============================= */
 function openPreview(id){
   const p = PRODUCTS.find(x=>x.id===id);
@@ -553,6 +506,10 @@ function openPreview(id){
       <ul class="mt-5 space-y-2 text-sm">
         ${p.features.map(f=>`<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose"></span>${f}</li>`).join('')}
       </ul>
+      ${p.livePreview ? `
+      <button onclick="window.open('${p.livePreview}', '_blank')" class="mt-5 w-full flex items-center justify-center gap-2 border border-rose text-rose px-6 py-3 rounded-full text-sm hover:bg-rose hover:text-cream transition">
+        Preview the Full Experience →
+      </button>` : ''}
       <div class="mt-auto pt-6 flex items-center justify-between">
         <span class="font-serif text-2xl">$${p.price.toFixed(2)}</span>
         <button onclick="addToCart('${p.id}'); closeModal('preview-modal');" class="bg-charcoal text-cream px-6 py-3 rounded-full text-sm hover:bg-charcoal/85">Create This Gift</button>
@@ -560,7 +517,6 @@ function openPreview(id){
     </div>`;
   openModal('preview-modal');
 }
-
 /* ============================= MODAL HELPERS ============================= */
 function openModal(id){
   const m = document.getElementById(id);
@@ -570,7 +526,6 @@ function openModal(id){
 function closeModal(id){
   document.getElementById(id).classList.add('pointer-events-none','opacity-0');
 }
-
 /* ============================= CART ============================= */
 function addToCart(id){
   const existing = cart.find(c=>c.id===id);
@@ -595,7 +550,6 @@ function renderCart(){
   countBadge.textContent = totalItems;
   countBadge.classList.toggle('hidden', totalItems===0);
   countBadge.classList.toggle('flex', totalItems>0);
-
   if (cart.length === 0){
     wrap.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center py-20">
       <p class="font-serif text-xl">Your memory box is empty.</p>
@@ -643,7 +597,6 @@ function applyDiscount(){
   discountApplied = (val === 'SAVE10');
   updateTotals();
 }
-
 /* cart drawer open/close */
 function openCart(){
   document.getElementById('cart-drawer').classList.remove('translate-x-full');
@@ -656,7 +609,6 @@ function closeCart(){
 document.getElementById('cart-btn').addEventListener('click', openCart);
 document.getElementById('cart-overlay').addEventListener('click', closeCart);
 renderCart();
-
 /* ============================= CHECKOUT ============================= */
 function goToCheckout(){
   if (cart.length===0) return;
@@ -684,7 +636,6 @@ function copyLink(){
   btn.textContent = 'Copied';
   setTimeout(()=> btn.textContent = old, 1400);
 }
-
 /* ============================= FAQ ============================= */
 const faqList = document.getElementById('faq-list');
 FAQS.forEach((f,i)=>{
@@ -705,7 +656,6 @@ function toggleFaq(i){
   a.classList.toggle('hidden');
   icon.textContent = open ? '+' : '–';
 }
-
 /* ============================= TESTIMONIALS ============================= */
 const testEl = document.getElementById('testimonials');
 TESTIMONIALS.forEach(t=>{
@@ -717,7 +667,6 @@ TESTIMONIALS.forEach(t=>{
     <p class="text-xs text-muted mt-4">— ${t.name} · ${t.gift}</p>`;
   testEl.appendChild(card);
 });
-
 /* ============================= INTERACTIVE ENVELOPE DEMO ============================= */
 const openBtn = document.getElementById('open-envelope');
 const flap = document.getElementById('flap');
@@ -726,7 +675,6 @@ const typewriterEl = document.getElementById('typewriter');
 const letterExtra = document.getElementById('letter-extra');
 const fullMessage = "Happy anniversary. I made this because words in a text never feel like enough — I wanted to give you something you could open, instead of just read.";
 let envelopeOpened = false;
-
 openBtn.addEventListener('click', ()=>{
   if (envelopeOpened) return;
   envelopeOpened = true;
@@ -761,7 +709,6 @@ function playMini(){
 document.getElementById('player-toggle').addEventListener('click', function(){
   this.textContent = this.textContent === '▶' ? '❚❚' : '▶';
 });
-
 /* ============================= RECIPIENT DEMO ============================= */
 function openRecipientDemo(){
   closeModal('success-modal');
