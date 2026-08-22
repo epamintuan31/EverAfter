@@ -381,10 +381,11 @@ const PRODUCTS = [
   { id:'love-letter', name:'Love Letter', category:'Letters', price:19.99, badge:'Bestseller',
     desc:'An interactive digital envelope with a cinematic typewriter animation.',
     features:['Interactive envelope','Typewriter animation','Photo gallery','Music'],
-    livePreview:'Letter/letter.html' },
+    livePreview:'Letter/letter.html', image:'Letter/Last photo.png' },
   { id:'memory-box', name:'Memory Box', category:'Memories', price:29.99, badge:'Popular',
     desc:'A digital collection of photos, videos, messages, and memories in one place.',
-    features:['Unlimited photos','Video support','Custom captions','Private link'] },
+    features:['Unlimited photos','Video support','Custom captions','Private link'],
+    livePreview:'Memory%20Box/memory-box.html', image:'Memory%20Box/1.png' },
   { id:'voices', name:'Voices', category:'Memories', price:24.99,
     desc:'A gift built around personal voice recordings, paired with photos.',
     features:['Voice recordings','Photo pairing','Playback controls','Downloadable'] },
@@ -470,7 +471,9 @@ function renderProducts(){
     card.style.transitionDelay = (i%3)*0.05 + 's';
     card.innerHTML = `
       <div class="relative aspect-[4/3] overflow-hidden">
-        <div class="w-full h-full bg-gradient-to-br ${gradientFor(p.category)} transition-transform duration-500 group-hover:scale-105"></div>
+        ${p.image
+          ? `<img src="${p.image}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">`
+          : `<div class="w-full h-full bg-gradient-to-br ${gradientFor(p.category)} transition-transform duration-500 group-hover:scale-105"></div>`}
         ${p.badge ? `<span class="absolute top-3 left-3 bg-cream/90 text-charcoal text-[10px] tracking-wide uppercase px-2.5 py-1 rounded-full">${p.badge}</span>` : ''}
         <span class="absolute bottom-3 right-3 bg-charcoal/70 text-cream text-[10px] px-2 py-1 rounded-full">${p.category}</span>
         ${p.livePreview ? `<span class="absolute bottom-3 left-3 bg-rose text-cream text-[10px] px-2 py-1 rounded-full">Live Demo</span>` : ''}
@@ -499,7 +502,9 @@ renderProducts();
 function openPreview(id){
   const p = PRODUCTS.find(x=>x.id===id);
   document.getElementById('preview-content').innerHTML = `
-    <div class="aspect-square md:aspect-auto bg-gradient-to-br ${gradientFor(p.category)}"></div>
+    ${p.image
+      ? `<img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover aspect-square md:aspect-auto">`
+      : `<div class="aspect-square md:aspect-auto bg-gradient-to-br ${gradientFor(p.category)}"></div>`}
     <div class="p-8 flex flex-col">
       <span class="text-xs tracking-[0.2em] uppercase text-rose mb-2">${p.category}</span>
       <h3 class="font-serif text-3xl">${p.name}</h3>
